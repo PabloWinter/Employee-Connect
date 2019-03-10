@@ -26,7 +26,7 @@
                 android:id="@+id/chat_message_textView_senderName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sender Name"
+                android:text="@string/ex_msg"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -35,7 +35,7 @@
                 android:id="@+id/chat_message_textView_timestamp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="time"
+                android:text="@string/ex_time"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:text="Text Message"
-            android:textSize="22dp" />
+            android:text="@string/ex_msg_body"
+            android:textSize="22sp" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

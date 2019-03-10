@@ -25,4 +25,8 @@
     <string name="log_in_now_text">Already have an account. Log In Now.</string>
     <string name="sign_up_now_text">Don\'t have an account. Sign Up Now.</string>
     <string name="app_logo_description">App Logo</string>
+    <string name="ex_msg">Sender Name</string>
+    <string name="ex_time">time</string>
+    <string name="ex_msg_body">Text Message</string>
+    <string name="ex_event">Event</string>
 </resources>

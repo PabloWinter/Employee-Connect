@@ -12,8 +12,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:orientation="vertical"
-        android:layout_gravity="center"
-        >
+        android:layout_gravity="center">
 
         <ImageView
             android:layout_width="@dimen/app_logo_width"
@@ -97,8 +96,7 @@
             android:textStyle="bold"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:onClick="openLogin"
-            />
+            android:onClick="openLogin" />
 
         <Button
             android:layout_width="wrap_content"
