@@ -1,5 +1,16 @@
 <resources>
-    <string name="app_name">EmployeeConnect</string>
     <string name="title_activity_schedule">ScheduleActivity</string>
+    <string name="app_name">Employee Connect</string>
+    <string name="title_activity_navigation">Navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">User Name</string>
+    <string name="nav_header_subtitle">userprofile@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="action_home">Home</string>
+    <string name="action_schedule">Schedule</string>
+    <string name="action_message">Messages</string>
+    <string name="action_about">About Us</string>
+    <string name="action_profile">Profile</string>
 </resources>

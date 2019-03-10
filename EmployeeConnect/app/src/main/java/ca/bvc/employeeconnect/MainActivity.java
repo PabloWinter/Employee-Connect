@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loginImage = (ImageView)findViewById(R.id.imageView_id);
-        loginImage.setImageResource(R.drawable.login_image);
+        //loginImage.setImageResource(R.drawable.login_image);
         logInButton = (Button)findViewById(R.id.login_button_id);
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override

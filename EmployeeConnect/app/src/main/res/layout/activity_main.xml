@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.587"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/login_image" />
+        tools:srcCompat="@mipmap/ic_launcher_round" />
 
     <EditText
         android:id="@+id/username_id"
