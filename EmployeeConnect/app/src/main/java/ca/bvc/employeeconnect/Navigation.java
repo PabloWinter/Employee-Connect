@@ -1,8 +1,10 @@
 package ca.bvc.employeeconnect;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -71,15 +73,18 @@ public class Navigation extends AppCompatActivity
         int selectedOption = item.getItemId();
 
         if (selectedOption == R.id.navigation_home) {
-            // Handle the camera action
-        } else if (selectedOption == R.id.navigation_schedule) {
-
-        } else if (selectedOption == R.id.navigation_message) {
-
-        } else if (selectedOption == R.id.navigation_about) {
-
-        } else if (selectedOption == R.id.navigation_profile) {
-
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        }
+        else if (selectedOption == R.id.navigation_schedule) {
+            Intent intentSchedule = new Intent(this, ScheduleActivity.class);
+            startActivity(intentSchedule);
+            return true;
+        }
+        else if (selectedOption == R.id.navigation_message) {
+            Intent intentMessage = new Intent(this, CommunicationActivity.class);
+            startActivity(intentMessage);
+            return true;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

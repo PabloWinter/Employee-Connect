@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(".ScheduleActivity");
+                Intent intent = new Intent(MainActivity.this, Navigation.class);
                 startActivity(intent);
             }
         });
