@@ -13,4 +13,15 @@
     <string name="action_message">Messages</string>
     <string name="action_about">About Us</string>
     <string name="action_profile">Profile</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_store_id">Store ID</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_email">Email</string>
+    <string name="checkbox_manager">I am manager</string>
+    <string name="btn_sign_up_now">Sign Up Now</string>
+    <string name="log_in_now_text">Already have an account. Log In Now.</string>
+    <string name="sign_up_now_text">Don\'t have an account. Sign Up Now.</string>
 </resources>
