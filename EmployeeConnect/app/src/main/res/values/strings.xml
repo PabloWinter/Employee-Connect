@@ -29,4 +29,6 @@
     <string name="ex_time">time</string>
     <string name="ex_msg_body">Text Message</string>
     <string name="ex_event">Event</string>
+    <string name="save_changes_btn">Save Changes</string>
+    <string name="private_profile_switch">Private Profile</string>
 </resources>
