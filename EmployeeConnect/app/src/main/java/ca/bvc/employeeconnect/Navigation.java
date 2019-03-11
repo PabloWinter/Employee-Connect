@@ -82,7 +82,7 @@ public class Navigation extends AppCompatActivity
             return true;
         }
         else if (selectedOption == R.id.navigation_message) {
-            Intent intentMessage = new Intent(this, CommunicationActivity.class);
+            Intent intentMessage = new Intent(this, MainActivity.class);
             startActivity(intentMessage);
             return true;
         }

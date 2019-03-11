@@ -28,4 +28,10 @@ public class Message {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    public Message(String senderName, String messageBody, String timestamp) {
+        setSenderName(senderName);
+        setMessageBody(messageBody);
+        setTimestamp(timestamp);
+    }
 }
