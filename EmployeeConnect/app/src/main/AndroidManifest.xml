@@ -9,29 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserProfile"></activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignUp" />
-        <activity android:name=".ScheduleActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name=".ScheduleActivity" /> -->
-
-
-            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-            <!-- </intent-filter> -->
+        <activity android:name=".UserProfile"
+            android:parentActivityName=".Navigation">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity"
+            android:parentActivityName=".Navigation"/>
+        <activity android:name=".SignUp"
+            android:parentActivityName=".Navigation"/>
+        <activity android:name=".ScheduleActivity"
+            android:parentActivityName=".Navigation">
+        </activity>
+        <activity android:name=".MainActivity"
+            android:parentActivityName=".Navigation">
+        </activity>
+        <activity
+            android:name=".Navigation"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Navigation"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>
