@@ -82,11 +82,6 @@ public class Navigation extends AppCompatActivity
             startActivity(intentMessage);
             return true;
         }
-        else if (selectedOption ==R.id.navigation_profile){
-            Intent intentProfile = new Intent(this, UserProfile.class);
-            startActivity(intentProfile);
-            return true;
-        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

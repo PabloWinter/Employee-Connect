@@ -14,4 +14,8 @@ public abstract class Person {
         this.password = password;
         this.storeId = storeId;
     }
+
+    public void displayWelcome(){
+        System.out.println("Welcome " + this.firstName + " " + this.lastName);
+    }
 }
