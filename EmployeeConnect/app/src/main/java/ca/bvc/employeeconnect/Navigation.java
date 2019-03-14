@@ -1,9 +1,11 @@
 package ca.bvc.employeeconnect;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,7 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, userFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,19 +74,31 @@ public class Navigation extends AppCompatActivity
         // Handle navigation view item clicks here.
         int selectedOption = item.getItemId();
 
+        Fragment fragment = null;
+        boolean doesFragmentexist = false;
+
         if (selectedOption == R.id.navigation_schedule) {
-            Intent intentSchedule = new Intent(this, ScheduleActivity.class);
-            startActivity(intentSchedule);
             return true;
+        } else if (selectedOption == R.id.navigation_message) {
+            fragment = new MessageFragment();
+            doesFragmentexist = true;
+        } else if (selectedOption == R.id.navigation_profile){
+            fragment = new userFragment();
+            doesFragmentexist = true;
         }
-        else if (selectedOption == R.id.navigation_message) {
-            Intent intentMessage = new Intent(this, MainActivity.class);
-            startActivity(intentMessage);
-            return true;
+
+        if (doesFragmentexist){
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).addToBackStack(null).commit();
         }
+
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
     }
 }
