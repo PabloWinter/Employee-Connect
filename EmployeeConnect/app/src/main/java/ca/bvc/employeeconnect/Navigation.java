@@ -72,17 +72,7 @@ public class Navigation extends AppCompatActivity
         // Handle navigation view item clicks here.
         int selectedOption = item.getItemId();
 
-        if (selectedOption == R.id.navigation_login) {
-            Intent intentSignIn = new Intent(this, LoginActivity.class);
-            startActivity(intentSignIn);
-            return true;
-        }
-        else if (selectedOption == R.id.navigation_signup){
-            Intent intentSignUp = new Intent(this, SignUp.class);
-            startActivity(intentSignUp);
-            return  true;
-        }
-        else if (selectedOption == R.id.navigation_schedule) {
+        if (selectedOption == R.id.navigation_schedule) {
             Intent intentSchedule = new Intent(this, ScheduleActivity.class);
             startActivity(intentSchedule);
             return true;
