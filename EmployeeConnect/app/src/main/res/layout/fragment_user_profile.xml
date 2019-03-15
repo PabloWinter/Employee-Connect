@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".UserProfileFragment">
 
+    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

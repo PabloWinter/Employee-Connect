@@ -18,7 +18,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     public void registerUser(View view) {
-        Intent logInIntent = new Intent(this, Navigation.class);
+        Intent logInIntent = new Intent(this, Home.class);
         startActivity(logInIntent);
     }
 }

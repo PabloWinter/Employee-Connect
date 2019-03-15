@@ -1,13 +1,8 @@
 package ca.bvc.employeeconnect;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,13 +12,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class Navigation extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, userFragment.OnFragmentInteractionListener{
+public class Home extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,
+            UserProfileFragment.OnFragmentInteractionListener,
+            MessageFragment.OnFragmentInteractionListener,
+            ScheduleFragment.OnFragmentInteractionListener{
+
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+        setContentView(R.layout.activity_home);
+        fragment = new ScheduleFragment();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -35,6 +36,7 @@ public class Navigation extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -74,19 +76,18 @@ public class Navigation extends AppCompatActivity
         // Handle navigation view item clicks here.
         int selectedOption = item.getItemId();
 
-        Fragment fragment = null;
         boolean doesFragmentexist = false;
 
         if (selectedOption == R.id.navigation_schedule) {
-            return true;
+            fragment = new ScheduleFragment();
+            doesFragmentexist = true;
         } else if (selectedOption == R.id.navigation_message) {
             fragment = new MessageFragment();
             doesFragmentexist = true;
         } else if (selectedOption == R.id.navigation_profile){
-            fragment = new userFragment();
+            fragment = new UserProfileFragment();
             doesFragmentexist = true;
         }
-
         if (doesFragmentexist){
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).addToBackStack(null).commit();
         }

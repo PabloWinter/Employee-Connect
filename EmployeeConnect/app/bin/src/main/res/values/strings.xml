@@ -1,0 +1,38 @@
+<resources>
+    <string name="title_activity_schedule">ScheduleActivity</string>
+    <string name="app_name">Employee Connect</string>
+    <string name="title_activity_navigation">Navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">User Name</string>
+    <string name="nav_header_subtitle">userprofile@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_signin">Sign In</string>
+    <string name="action_signup">Sign Up</string>
+    <string name="action_schedule">Schedule</string>
+    <string name="action_message">Messages</string>
+    <string name="action_about">About Us</string>
+    <string name="action_profile">Profile</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_store_id">Store ID</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_email">Email</string>
+    <string name="checkbox_manager">I am manager</string>
+    <string name="btn_sign_up_now">Sign Up Now</string>
+    <string name="log_in_now_text">Already have an account. Log In Now.</string>
+    <string name="sign_up_now_text">Don\'t have an account. Sign Up Now.</string>
+    <string name="app_logo_description">App Logo</string>
+    <string name="ex_msg">Sender Name</string>
+    <string name="ex_time">time</string>
+    <string name="ex_msg_body">Text Message</string>
+    <string name="ex_event">Event</string>
+    <string name="save_changes_btn">Save Changes</string>
+    <string name="private_profile_switch">Private Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
