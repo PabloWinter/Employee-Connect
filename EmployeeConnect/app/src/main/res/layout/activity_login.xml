@@ -51,6 +51,7 @@
         android:layout_marginTop="10dp"
         android:text="Log In"
         android:layout_gravity="center"
-        android:onClick="registerUser"/>
+        android:onClick="loginUser"/>
+
 
 </LinearLayout>

@@ -1,5 +1,7 @@
 package ca.bvc.employeeconnect;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -18,12 +21,34 @@ public class Home extends AppCompatActivity
             MessageFragment.OnFragmentInteractionListener,
             ScheduleFragment.OnFragmentInteractionListener{
 
+    //preference to save user info locally
+    private SharedPreferences mPreferences;
+    private String sharedPrefFile = "ca.bvc.employeeconnect.userprefrences";
+
+    //keys for the preferences
+    private final String FIRST_NAME = "ca.bvc.employeeconnect.fname";
+    private final String LAST_NAME = "ca.bvc.employeeconnect.lname";
+    private final String EMAIL = "ca.bvc.employeeconnect.email";
+    private final String MANAGER = "ca.bvc.employeeconnect.manager";
+    private final String STORE_ID = "ca.bvc.employeeconnect.storeid";
+
+    //fragment object
     Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //set the preference
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+
+        if (savedInstanceState == null) {
+            Intent logInIntent = new Intent(this, LoginActivity.class);
+            logInIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(logInIntent);
+        }
+
         fragment = new ScheduleFragment();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -37,6 +62,19 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
+        //to do change hardcoded values with database values
+        preferencesEditor.putString(FIRST_NAME, "Brijesh");
+        preferencesEditor.putString(LAST_NAME, "Patel");
+        preferencesEditor.putString(EMAIL, "b.patel405@mybvc.ca");
+        preferencesEditor.putBoolean(MANAGER, true);
+        preferencesEditor.putInt(STORE_ID, 000111);
+        preferencesEditor.apply();
     }
 
     @Override
