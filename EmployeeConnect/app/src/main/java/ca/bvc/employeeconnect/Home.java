@@ -1,9 +1,11 @@
 package ca.bvc.employeeconnect;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +16,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -21,33 +31,43 @@ public class Home extends AppCompatActivity
             MessageFragment.OnFragmentInteractionListener,
             ScheduleFragment.OnFragmentInteractionListener{
 
-    //preference to save user info locally
-    private SharedPreferences mPreferences;
-    private String sharedPrefFile = "ca.bvc.employeeconnect.userprefrences";
-
-    //keys for the preferences
-    private final String FIRST_NAME = "ca.bvc.employeeconnect.fname";
-    private final String LAST_NAME = "ca.bvc.employeeconnect.lname";
-    private final String EMAIL = "ca.bvc.employeeconnect.email";
-    private final String MANAGER = "ca.bvc.employeeconnect.manager";
-    private final String STORE_ID = "ca.bvc.employeeconnect.storeid";
-
     //fragment object
     Fragment fragment;
+
+    private Context mContext;
+
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthListner;
+    private static final int RC_SIGN_IN = 1;
+
+    List<AuthUI.IdpConfig> providers = Arrays.asList(
+            new AuthUI.IdpConfig.EmailBuilder().build()
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //set the preference
-        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-
-        if (savedInstanceState == null) {
-            Intent logInIntent = new Intent(this, LoginActivity.class);
-            logInIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(logInIntent);
-        }
+        mContext = this;
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mAuthListner = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null ) {
+                    Toast.makeText(mContext, "User Sign In", Toast.LENGTH_SHORT).show();
+                } else  {
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setAvailableProviders(providers)
+                                    .setIsSmartLockEnabled(false)
+                                    .build(),
+                            RC_SIGN_IN);
+                }
+            }
+        };
 
         fragment = new ScheduleFragment();
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -67,14 +87,13 @@ public class Home extends AppCompatActivity
     @Override
     public void onPause() {
         super.onPause();
-        SharedPreferences.Editor preferencesEditor = mPreferences.edit();
-        //to do change hardcoded values with database values
-        preferencesEditor.putString(FIRST_NAME, "Brijesh");
-        preferencesEditor.putString(LAST_NAME, "Patel");
-        preferencesEditor.putString(EMAIL, "b.patel405@mybvc.ca");
-        preferencesEditor.putBoolean(MANAGER, true);
-        preferencesEditor.putInt(STORE_ID, 000111);
-        preferencesEditor.apply();
+        mFirebaseAuth.removeAuthStateListener(mAuthListner);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthListner);
     }
 
     @Override
