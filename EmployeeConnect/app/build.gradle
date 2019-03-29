@@ -38,6 +38,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:18.1.0'
     // Multi-dex
     implementation 'com.android.support:multidex:1.0.3'
+
+    //firebase ui
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
+
+    //facebook auth
+    implementation 'com.facebook.android:facebook-android-sdk:4.+'
 }
 
 apply plugin: 'com.google.gms.google-services'
