@@ -1,12 +1,32 @@
 package ca.bvc.employeeconnect;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
+import androidx.lifecycle.ViewModelProvider;
+import ca.bvc.employeeconnect.adapter.ChatListAdapter;
+import ca.bvc.employeeconnect.model.Message;
+import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
+import ca.bvc.employeeconnect.viewmodel.UserViewModel;
 
 
 /**
@@ -19,7 +39,9 @@ import android.view.ViewGroup;
  *
  */
 public class MessageFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+
+    private Context mContext;
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -29,6 +51,7 @@ public class MessageFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private RecyclerView chatRecyclerView;
 
     /**
      * Use this factory method to create a new instance of
@@ -63,8 +86,32 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        View view = inflater.inflate(R.layout.fragment_message, container, false);
+        mContext = this.getContext();
+        chatRecyclerView = view.findViewById(R.id.communication_recycler_container);
+        initChatRecyclerView();
+        return view;
+    }
+
+    private void initChatRecyclerView() {
+        final LinearLayoutManager chatLinearLayoutManager = new LinearLayoutManager(mContext);
+
+        MessageViewModel messageViewModel =  ViewModelProviders.of(this).get(MessageViewModel.class);
+
+        LiveData<QuerySnapshot> messagesLiveData = messageViewModel.getMessages();
+        messagesLiveData.observe(this, new Observer<QuerySnapshot>() {
+            @Override
+            public void onChanged(@Nullable QuerySnapshot querySnapshot) {
+                if (querySnapshot != null) {
+                    ArrayList<Message> messages = new ArrayList<>();
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        messages.add(new Message(doc.getString("SenderId"), doc.getString("Text"), doc.getTimestamp("TimeStamp")));
+                    }
+                    chatRecyclerView.setAdapter(new ChatListAdapter(mContext, messages));
+                    chatRecyclerView.setLayoutManager(chatLinearLayoutManager);
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

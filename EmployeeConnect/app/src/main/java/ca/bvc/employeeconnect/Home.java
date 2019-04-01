@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -52,7 +53,7 @@ public class Home extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListner;
     private static final int RC_SIGN_IN = 1;
 
-    List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
+    List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(), new AuthUI.IdpConfig.GoogleBuilder().build());
 
     private String TAG_SCHEDULE_FRAGMENT = "ca.bvc.employeeconnect.schedule.fragment";
     private String TAG_MESSAGE_FRAGMENT = "ca.bvc.employeeconnect.message.fragment";
@@ -109,8 +110,7 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
     }
@@ -127,15 +127,20 @@ public class Home extends AppCompatActivity
                     View hView =  navigationView.getHeaderView(0);
                     TextView navUserName = (TextView)hView.findViewById(R.id.userName);
                     TextView navUserEmail = (TextView)hView.findViewById(R.id.userEmail);
-                    ImageView navUserImage = (ImageView)hView.findViewById(R.id.useLogo);
-                    Log.d("ImageUrl", user.getPhotoUrl() + "");
+                    ImageView navUserImage = (ImageView)hView.findViewById(R.id.userImage);
 
-                    navUserName.setText(user.getDisplayName());
-                    navUserEmail.setText(user.getEmail());
-                    if(user.getPhotoUrl() != null) {
-                        Glide.with(navUserImage).load(user.getPhotoUrl());
+                    if (user.getDisplayName() != null && navUserName != null) {
+                        navUserName.setText(user.getDisplayName());
                     }
-
+                    if (user.getEmail() != null && navUserEmail != null ) {
+                        navUserEmail.setText(user.getEmail());
+                    }
+                    if(user.getPhotoUrl() != null && navUserEmail != null) {
+                        Glide.with(mContext)
+                                .load(user.getPhotoUrl())
+                                .error(R.drawable.ic_menu_home)
+                                .into(navUserImage);
+                    }
                 } else  {
                     startActivityForResult(
                             AuthUI.getInstance()
@@ -232,5 +237,10 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

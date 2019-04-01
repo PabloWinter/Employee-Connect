@@ -1,4 +1,4 @@
-package ca.bvc.employeeconnect;
+package ca.bvc.employeeconnect.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import ca.bvc.employeeconnect.R;
 import ca.bvc.employeeconnect.model.Message;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListHolder> {
