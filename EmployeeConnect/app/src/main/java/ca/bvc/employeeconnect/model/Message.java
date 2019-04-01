@@ -6,16 +6,16 @@ import com.google.firebase.Timestamp;
 
 
 public class Message {
-    private String SenderName, SenderId, MessageBody;
+    private String senderName, senderId, messageBody;
     private Timestamp timestamp;
 
     public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public Message(String senderId, String messageBody, Timestamp timestamp) {
-        SenderId = senderId;
-        MessageBody = messageBody;
+    public Message(String senderName, String messageBody, Timestamp timestamp) {
+        this.senderName = senderName;
+        this.messageBody = messageBody;
         this.timestamp = timestamp;
     }
 
@@ -24,32 +24,27 @@ public class Message {
     }
 
     public String getSenderName() {
-        return SenderName;
+        return senderName;
     }
 
     public void setSenderName(String senderName) {
-        SenderName = senderName;
+        this.senderName = senderName;
     }
 
     public String getSenderId() {
-        return SenderId;
+        return senderId;
     }
 
     public void setSenderId(String senderId) {
-        SenderId = senderId;
+        this.senderId = senderId;
     }
 
     public String getMessageBody() {
-        return MessageBody;
+        return messageBody;
     }
 
     public void setMessageBody(String messageBody) {
-        MessageBody = messageBody;
+        this.messageBody = messageBody;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return getSenderId() + " -> " + getMessageBody() + " -> "  + getTimestamp();
-    }
 }
