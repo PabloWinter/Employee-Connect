@@ -73,28 +73,8 @@ public class Home extends AppCompatActivity
         //initialize navigation view
         initNavigation();
 
-        //setup live data
-        setUpLiveData();
-
         //handle user sign in logic
         initAuth();
-    }
-
-    private void setUpLiveData() {
-
-        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-
-        LiveData<QuerySnapshot> liveData = userViewModel.getDataSnapshotLiveData();
-
-        liveData.observe(this, new Observer<QuerySnapshot>() {
-            @Override
-            public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {
-                if (queryDocumentSnapshots != null) {
-
-                }
-            }
-        });
-
     }
 
     private void initNavigation() {
