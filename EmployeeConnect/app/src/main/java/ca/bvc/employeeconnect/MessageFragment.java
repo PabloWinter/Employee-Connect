@@ -103,7 +103,9 @@ public class MessageFragment extends Fragment {
                         messages.add(new Message(doc.getString("SenderId"), doc.getString("Text"), doc.getTimestamp("TimeStamp")));
                     }
                     chatRecyclerView.setAdapter(new ChatListAdapter(mContext, messages));
-                    chatRecyclerView.setLayoutManager(chatLinearLayoutManager);
+                    if (chatRecyclerView.getLayoutManager() == null) {
+                        chatRecyclerView.setLayoutManager(chatLinearLayoutManager);
+                    }
                 }
             }
         });
