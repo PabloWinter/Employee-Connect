@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -40,16 +43,50 @@ public class Home extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListner;
     private static final int RC_SIGN_IN = 1;
 
-    List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build()
-    );
+    List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
+
+    private String TAG_SCHEDULE_FRAGMENT = "ca.bvc.employeeconnect.schedule.fragment";
+    private String TAG_MESSAGE_FRAGMENT = "ca.bvc.employeeconnect.message.fragment";
+    private String TAG_USER_PROFILE_FRAGMENT = "ca.bvc.employeeconnect.profile.fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //initialize props
         mContext = this;
+
+        //handle user sign in logic
+        initAuth();
+
+        //set up drawer in view
+        setUpDrawer();
+
+        //initialize navigation view
+        initNavigation();
+    }
+
+    private void initNavigation() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        //initialize default UI
+        fragment = new ScheduleFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, TAG_SCHEDULE_FRAGMENT).commit();
+    }
+
+    private void setUpDrawer() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void initAuth() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthListner = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -68,20 +105,6 @@ public class Home extends AppCompatActivity
                 }
             }
         };
-
-        fragment = new ScheduleFragment();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -98,12 +121,7 @@ public class Home extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
     @Override
@@ -132,24 +150,38 @@ public class Home extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int selectedOption = item.getItemId();
-
-        boolean doesFragmentexist = false;
-
-        if (selectedOption == R.id.navigation_schedule) {
-            fragment = new ScheduleFragment();
-            doesFragmentexist = true;
-        } else if (selectedOption == R.id.navigation_message) {
-            fragment = new MessageFragment();
-            doesFragmentexist = true;
+        String tag;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (selectedOption == R.id.navigation_message) {
+            tag = TAG_MESSAGE_FRAGMENT;
+            fragment = fragmentManager.findFragmentByTag(tag);
+            if (fragment == null) {
+                fragment = new MessageFragment();
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, tag).addToBackStack(TAG_SCHEDULE_FRAGMENT).commit();
         } else if (selectedOption == R.id.navigation_profile){
-            fragment = new UserProfileFragment();
-            doesFragmentexist = true;
+            tag = TAG_USER_PROFILE_FRAGMENT;
+            fragment = fragmentManager.findFragmentByTag(tag);
+            if (fragment == null) {
+                fragment = new UserProfileFragment();
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, tag).addToBackStack(TAG_SCHEDULE_FRAGMENT).commit();
+        } else if (selectedOption == R.id.navigation_logout) {
+            AuthUI.getInstance().signOut(this)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(mContext, "Log Out", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            tag = TAG_SCHEDULE_FRAGMENT;
+            fragment = fragmentManager.findFragmentByTag(tag);
+            if (fragment == null) {
+                fragment = new ScheduleFragment();
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, tag).commit();
         }
-        if (doesFragmentexist){
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).addToBackStack(null).commit();
-        }
-
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

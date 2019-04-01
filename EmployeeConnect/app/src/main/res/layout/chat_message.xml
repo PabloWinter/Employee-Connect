@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ex_msg"
-                android:textColor="@color/colorPrimary"
+                android:textColor="#007bff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ex_time"
                 android:layout_marginStart="5dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="#007bff"
                 android:textSize="16sp" />
         </LinearLayout>
 
