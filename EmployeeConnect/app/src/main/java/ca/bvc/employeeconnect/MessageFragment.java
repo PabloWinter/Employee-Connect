@@ -10,23 +10,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-import androidx.lifecycle.ViewModelProvider;
 import ca.bvc.employeeconnect.adapter.ChatListAdapter;
 import ca.bvc.employeeconnect.model.Message;
 import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
-import ca.bvc.employeeconnect.viewmodel.UserViewModel;
 
 
 /**

@@ -1,8 +1,9 @@
 package ca.bvc.employeeconnect.model;
 
+import android.support.annotation.NonNull;
+
 import com.google.firebase.Timestamp;
 
-import androidx.annotation.NonNull;
 
 public class Message {
     private String SenderName, SenderId, MessageBody;
