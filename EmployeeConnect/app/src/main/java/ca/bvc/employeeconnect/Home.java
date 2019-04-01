@@ -1,11 +1,13 @@
 package ca.bvc.employeeconnect;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -14,19 +16,26 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Arrays;
 import java.util.List;
+
+import ca.bvc.employeeconnect.viewmodel.UserViewModel;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -57,14 +66,34 @@ public class Home extends AppCompatActivity
         //initialize props
         mContext = this;
 
-        //handle user sign in logic
-        initAuth();
-
         //set up drawer in view
         setUpDrawer();
 
         //initialize navigation view
         initNavigation();
+
+        //setup live data
+        setUpLiveData();
+
+        //handle user sign in logic
+        initAuth();
+    }
+
+    private void setUpLiveData() {
+
+        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
+        LiveData<QuerySnapshot> liveData = userViewModel.getDataSnapshotLiveData();
+
+        liveData.observe(this, new Observer<QuerySnapshot>() {
+            @Override
+            public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots != null) {
+
+                }
+            }
+        });
+
     }
 
     private void initNavigation() {
@@ -93,7 +122,20 @@ public class Home extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null ) {
-                    Toast.makeText(mContext, "User Sign In", Toast.LENGTH_SHORT).show();
+
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    View hView =  navigationView.getHeaderView(0);
+                    TextView navUserName = (TextView)hView.findViewById(R.id.userName);
+                    TextView navUserEmail = (TextView)hView.findViewById(R.id.userEmail);
+                    ImageView navUserImage = (ImageView)hView.findViewById(R.id.useLogo);
+                    Log.d("ImageUrl", user.getPhotoUrl() + "");
+
+                    navUserName.setText(user.getDisplayName());
+                    navUserEmail.setText(user.getEmail());
+                    if(user.getPhotoUrl() != null) {
+                        Glide.with(navUserImage).load(user.getPhotoUrl());
+                    }
+
                 } else  {
                     startActivityForResult(
                             AuthUI.getInstance()

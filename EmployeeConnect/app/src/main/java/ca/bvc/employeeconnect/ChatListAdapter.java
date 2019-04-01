@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ca.bvc.employeeconnect.library.Message;
+import ca.bvc.employeeconnect.model.Message;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListHolder> {
 
@@ -34,7 +34,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     @Override
     public void onBindViewHolder(@NonNull ChatListHolder gameListHolder, final int position) {
         gameListHolder.senderNameText.setText(mMessages.get(position).getSenderName());
-        gameListHolder.timeStampText.setText(mMessages.get(position).getTimestamp());
+        gameListHolder.timeStampText.setText(mMessages.get(position).getTimestamp().toDate().toString());
         gameListHolder.messageBodyText.setText(mMessages.get(position).getMessageBody());
     }
 
