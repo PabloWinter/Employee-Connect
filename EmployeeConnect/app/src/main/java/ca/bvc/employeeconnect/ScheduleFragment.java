@@ -1,6 +1,7 @@
 package ca.bvc.employeeconnect;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -77,7 +78,37 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 String date = year + "/" + month + "/" + dayOfMonth;
-                Log.d("mydate", date);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth);
+                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                Intent intent = new Intent(".UserScheduleForm");
+                switch (dayOfWeek){
+                    case (1):
+                        intent.putExtra("WEEK_DAY", "Sunday");
+                        break;
+                    case (2):
+                        intent.putExtra("WEEK_DAY", "Monday");
+                        break;
+                    case (3):
+                        intent.putExtra("WEEK_DAY", "Tuesday");
+                        break;
+                    case (4):
+                        intent.putExtra("WEEK_DAY", "Wednesday");
+                        break;
+                    case (5):
+                        intent.putExtra("WEEK_DAY", "Thursday");
+                        break;
+                    case (6):
+                        intent.putExtra("WEEK_DAY", "Friday");
+                        break;
+                    case (7):
+                        intent.putExtra("WEEK_DAY", "Saturday");
+                        break;
+                    default:
+                        break;
+                }
+                intent.putExtra("DATE", date);
+                startActivity(intent);
 
             }
         });
