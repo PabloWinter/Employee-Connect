@@ -11,9 +11,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -100,6 +102,31 @@ public class MessageFragment extends Fragment {
         mContext = this.getContext();
         chatRecyclerView = view.findViewById(R.id.communication_recycler_container);
         initChatRecyclerView();
+        Button sendButton = view.findViewById(R.id.button_send);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final TextView inputTextView = (TextView) getActivity().findViewById(R.id.input_message);
+                String textMessage = inputTextView.getText().toString();
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                messageViewModel.sendMessage(user.getDisplayName(), textMessage, new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                inputTextView.setText("");
+                                Toast.makeText(getActivity(), "Your message was sent", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        , new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Could not send message", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                );
+            }
+        });
         return view;
     }
 
@@ -124,28 +151,6 @@ public class MessageFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void sendMessage(View view){
-        final TextView inputTextView = (TextView) view.findViewById(R.id.input_message);
-        String textMessage = inputTextView.getText().toString();
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-
-        messageViewModel.sendMessage("Pablo", textMessage, new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        inputTextView.setText("");
-                    }
-                }
-                , new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(mContext, "Error message sending", Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
     }
 
     // TODO: Rename method, update argument and hook method into UI event

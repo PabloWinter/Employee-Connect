@@ -33,6 +33,7 @@
             android:layout_marginLeft="8dp"/>
 
         <Button
+            android:id="@+id/button_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
@@ -41,8 +42,7 @@
             android:backgroundTint="#007bff"
             android:textColor="#fff"
             android:text="send"
-            android:textSize="12sp"
-            android:onClick="sendMessage"/>
+            android:textSize="12sp"/>
 
     </LinearLayout>
 
