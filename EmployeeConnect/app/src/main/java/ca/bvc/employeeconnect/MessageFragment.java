@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +14,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.protobuf.Timestamp;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import ca.bvc.employeeconnect.adapter.ChatListAdapter;
 import ca.bvc.employeeconnect.model.Message;
@@ -47,6 +61,7 @@ public class MessageFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private RecyclerView chatRecyclerView;
+    private MessageViewModel messageViewModel;
 
     /**
      * Use this factory method to create a new instance of
@@ -91,7 +106,7 @@ public class MessageFragment extends Fragment {
     private void initChatRecyclerView() {
         final LinearLayoutManager chatLinearLayoutManager = new LinearLayoutManager(mContext);
 
-        MessageViewModel messageViewModel =  ViewModelProviders.of(this).get(MessageViewModel.class);
+        messageViewModel =  ViewModelProviders.of(this).get(MessageViewModel.class);
 
         LiveData<QuerySnapshot> messagesLiveData = messageViewModel.getMessages();
         messagesLiveData.observe(this, new Observer<QuerySnapshot>() {
@@ -107,6 +122,28 @@ public class MessageFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void sendMessage(View view){
+        final TextView inputTextView = (TextView) view.findViewById(R.id.input_message);
+        String textMessage = inputTextView.getText().toString();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        messageViewModel.sendMessage("Pablo", textMessage, new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        inputTextView.setText("");
+                    }
+                }
+                , new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(mContext, "Error message sending", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
     }
 
     // TODO: Rename method, update argument and hook method into UI event
