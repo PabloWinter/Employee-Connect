@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.protobuf.Timestamp;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -102,7 +104,12 @@ public class MessageFragment extends Fragment {
         mContext = this.getContext();
         chatRecyclerView = view.findViewById(R.id.communication_recycler_container);
         initChatRecyclerView();
-        Button sendButton = view.findViewById(R.id.button_send);
+        initChatSendMessageListner(view);
+        return view;
+    }
+
+    private void initChatSendMessageListner(View view) {
+        ImageButton sendButton = view.findViewById(R.id.button_send);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,13 +128,13 @@ public class MessageFragment extends Fragment {
                         , new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                inputTextView.setText("");
                                 Toast.makeText(getActivity(), "Could not send message", Toast.LENGTH_LONG).show();
                             }
                         }
                 );
             }
         });
-        return view;
     }
 
     private void initChatRecyclerView() {
@@ -144,6 +151,12 @@ public class MessageFragment extends Fragment {
                     for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
                         messages.add(new Message(doc.getString("SenderName"), doc.getString("Text"), doc.getTimestamp("TimeStamp")));
                     }
+                    messages.sort(new Comparator<Message>() {
+                        @Override
+                        public int compare(Message o1, Message o2) {
+                            return o1.getTimestamp().compareTo(o2.getTimestamp()) ;
+                        }
+                    });
                     chatRecyclerView.setAdapter(new ChatListAdapter(mContext, messages));
                     if (chatRecyclerView.getLayoutManager() == null) {
                         chatRecyclerView.setLayoutManager(chatLinearLayoutManager);

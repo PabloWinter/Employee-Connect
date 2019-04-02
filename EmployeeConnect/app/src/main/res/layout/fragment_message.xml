@@ -7,43 +7,44 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/communication_recycler_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/chat_message"></android.support.v7.widget.RecyclerView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/input_message"
-            android:layout_width="280dp"
-            android:layout_height="40dp"
-            android:hint="Input Message"
-            android:textSize="17sp"
-            android:layout_marginTop="453dp"
-            android:layout_marginLeft="8dp"/>
-
-        <Button
-            android:id="@+id/button_send"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="453dp"
-            android:drawableStart="@drawable/ic_send_message_white"
-            android:backgroundTint="#007bff"
-            android:textColor="#fff"
-            android:text="send"
-            android:textSize="12sp"/>
+            tools:listitem="@layout/chat_message"
+            android:layout_weight="0.80"></android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="0.20">
+
+            <EditText
+                android:id="@+id/input_message"
+                android:paddingTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_message"
+                android:textSize="18sp"
+                android:layout_weight="0.95" />
+
+            <ImageButton
+                android:id="@+id/button_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_send_message_white"
+                android:backgroundTint="#007bff"
+                android:textColor="#fff"
+                android:layout_weight="0.05"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
 
 </FrameLayout>

@@ -31,14 +31,6 @@ public class Message {
         this.senderName = senderName;
     }
 
-    public String getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
-    }
-
     public String getMessageBody() {
         return messageBody;
     }
