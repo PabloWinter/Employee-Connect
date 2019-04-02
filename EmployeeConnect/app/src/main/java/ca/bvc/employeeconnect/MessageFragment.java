@@ -115,10 +115,12 @@ public class MessageFragment extends Fragment {
                 if (querySnapshot != null) {
                     ArrayList<Message> messages = new ArrayList<>();
                     for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
-                        messages.add(new Message(doc.getString("SenderId"), doc.getString("Text"), doc.getTimestamp("TimeStamp")));
+                        messages.add(new Message(doc.getString("SenderName"), doc.getString("Text"), doc.getTimestamp("TimeStamp")));
                     }
                     chatRecyclerView.setAdapter(new ChatListAdapter(mContext, messages));
-                    chatRecyclerView.setLayoutManager(chatLinearLayoutManager);
+                    if (chatRecyclerView.getLayoutManager() == null) {
+                        chatRecyclerView.setLayoutManager(chatLinearLayoutManager);
+                    }
                 }
             }
         });
