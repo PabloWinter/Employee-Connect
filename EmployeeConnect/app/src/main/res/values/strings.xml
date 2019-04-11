@@ -52,5 +52,6 @@
 
     <string name="employee_secret_key">1234567890</string>
     <string name="admin_secret_key">0987654321</string>
+    <string name="wrong_employer_code_msg">Wrong Employer code. Please Try again.</string>
 
 </resources>

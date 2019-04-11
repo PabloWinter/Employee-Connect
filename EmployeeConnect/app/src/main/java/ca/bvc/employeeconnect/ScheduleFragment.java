@@ -1,18 +1,29 @@
 package ca.bvc.employeeconnect;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import ca.bvc.employeeconnect.viewmodel.EventViewModel;
 
 
 /**
@@ -36,6 +47,8 @@ public class ScheduleFragment extends Fragment {
     private CalendarView myCalender;
 
     private OnFragmentInteractionListener mListener;
+
+    private EventViewModel eventViewModel;
 
     /**
      * Use this factory method to create a new instance of
@@ -112,7 +125,26 @@ public class ScheduleFragment extends Fragment {
 
             }
         });
+
+
+        initEventsRecyclerView();
         return rootView;
+    }
+
+    private void initEventsRecyclerView() {
+        final LinearLayoutManager eventLinearLayoutManager = new LinearLayoutManager(getActivity());
+
+        eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
+
+        LiveData<QuerySnapshot> eventLiveData = eventViewModel.getEvents();
+        eventLiveData.observe(getActivity(), new Observer<QuerySnapshot>() {
+            @Override
+            public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots != null) {
+
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -20,9 +20,9 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 7;
+    public static final String ADMIN_TAG = "admin";
 
-    List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(), new AuthUI.IdpConfig.GoogleBuilder().build());
-
+    private List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(), new AuthUI.IdpConfig.GoogleBuilder().build());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +37,19 @@ public class LoginActivity extends AppCompatActivity {
         if (userEmployerCodeInput.equals(getText(R.string.employee_secret_key))) {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean("admin", false);
+            editor.putBoolean(ADMIN_TAG, false);
             editor.commit();
             initFirebaseAuthRegister();
         } else if (userEmployerCodeInput.equals(getText(R.string.admin_secret_key))) {
             SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean("admin", true);
+            editor.putBoolean(ADMIN_TAG, true);
             editor.commit();
             initFirebaseAuthRegister();
         }
         else {
-            Toast.makeText(context,  "Wrong Employer code. Please Try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,  getString(R.string.wrong_employer_code_msg), Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private void initFirebaseAuthRegister() {

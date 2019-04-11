@@ -102,6 +102,7 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         mContext = this.getContext();
+        getActivity().setTitle("Communication");
         chatRecyclerView = view.findViewById(R.id.communication_recycler_container);
         initChatRecyclerView();
         initChatSendMessageListner(view);
