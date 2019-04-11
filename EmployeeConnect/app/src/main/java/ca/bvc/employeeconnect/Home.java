@@ -51,7 +51,7 @@ public class Home extends AppCompatActivity
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListner;
-    private static final int RC_SIGN_IN = 1;
+    private static final int RC_EMPLOYEE_CONFIRMATION = 1;
 
     List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(), new AuthUI.IdpConfig.GoogleBuilder().build());
 
@@ -123,12 +123,8 @@ public class Home extends AppCompatActivity
                     }
                 } else  {
                     startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setAvailableProviders(providers)
-                                    .setIsSmartLockEnabled(false)
-                                    .build(),
-                            RC_SIGN_IN);
+                            new Intent(mContext, LoginActivity.class),
+                            RC_EMPLOYEE_CONFIRMATION);
                 }
             }
         };
