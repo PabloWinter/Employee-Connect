@@ -45,9 +45,9 @@
         <!--</ScrollView>-->
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/communication_recycler_container"
+            android:id="@+id/event_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             tools:listitem="@layout/event_list_items"
             android:layout_weight="30"></android.support.v7.widget.RecyclerView>
 

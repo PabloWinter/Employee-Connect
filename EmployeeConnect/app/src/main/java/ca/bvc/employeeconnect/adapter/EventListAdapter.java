@@ -33,10 +33,13 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(@NonNull EventListHolder eventListHolder, final int position) {
+
+        String startTimeLabel = "Start  : ";
+        String endTimeLabel = "End : ";
         eventListHolder.eventName .setText(listEvents.get(position).getNameEvent());
         eventListHolder.eventNotes.setText(listEvents.get(position).getNoteEvent());
-        eventListHolder.eventStart.setText(listEvents.get(position).getEventEnd());
-        eventListHolder.eventEnd.setText(listEvents.get(position).getEventEnd());
+        eventListHolder.eventStart.setText(startTimeLabel + listEvents.get(position).getEventStart());
+        eventListHolder.eventEnd.setText(endTimeLabel + listEvents.get(position).getEventEnd());
     }
 
     @Override

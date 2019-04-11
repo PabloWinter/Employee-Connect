@@ -5,6 +5,14 @@ public class Event {
     public String nameEvent;
     public String noteEvent;
     public String eventStart;
+
+    public Event(String nameEvent, String noteEvent, String eventStart, String eventEnd) {
+        this.nameEvent = nameEvent;
+        this.noteEvent = noteEvent;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
+    }
+
     public String eventEnd;
 
     public String getNameEvent() {
