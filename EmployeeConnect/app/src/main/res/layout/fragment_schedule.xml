@@ -20,29 +20,39 @@
             android:background="#DCDCDC"
             android:layout_weight="1"/>
 
-        <ScrollView
+        <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_weight="4">-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textView"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="39dp"-->
+                    <!--android:background="#007bff"-->
+                    <!--android:text="@string/ex_event"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:textColor="@android:color/background_light" />-->
+
+            <!--</LinearLayout>-->
+
+        <!--</ScrollView>-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/communication_recycler_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="4">
+            tools:listitem="@layout/event_list_items"
+            android:layout_weight="30"></android.support.v7.widget.RecyclerView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="39dp"
-                    android:background="#007bff"
-                    android:text="@string/ex_event"
-                    android:textSize="20sp"
-                    android:textColor="@android:color/background_light" />
-
-            </LinearLayout>
-
-        </ScrollView>
 
     </LinearLayout>
+
+
 </FrameLayout>
