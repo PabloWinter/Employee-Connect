@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import ca.bvc.employeeconnect.adapter.ChatListAdapter;
 import ca.bvc.employeeconnect.adapter.EventListAdapter;
@@ -50,8 +51,6 @@ public class ScheduleFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private CalendarView myCalender;
-
-    private RecyclerView eventRecyclerView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -133,34 +132,11 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
-        eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
-        initEventsRecyclerView();
-        return rootView;
-    }
-
-    private void initEventsRecyclerView() {
-        final LinearLayoutManager eventLinearLayoutManager = new LinearLayoutManager(getActivity());
-
+        RecyclerView eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
         eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
-
-        LiveData<QuerySnapshot> eventLiveData = eventViewModel.getEvents();
-        eventLiveData.observe(getActivity(), new Observer<QuerySnapshot>() {
-            @Override
-            public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {
-                if (queryDocumentSnapshots != null) {
-                    ArrayList<Event> events = new ArrayList<>();
-
-                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                        events.add(new Event(doc.getString("Name"), doc.getString("Note"), doc.getString("StartTime"), doc.getString("EndTime")));
-                    }
-                    eventRecyclerView.setAdapter((new EventListAdapter(getActivity(), events)));
-                    if (eventRecyclerView.getLayoutManager() == null) {
-                        eventRecyclerView.setLayoutManager(eventLinearLayoutManager);
-                    }
-
-                }
-            }
-        });
+        eventViewModel.initEventRecycler(getActivity(), eventRecyclerView, new Date());
+        //initEventsRecyclerView();
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

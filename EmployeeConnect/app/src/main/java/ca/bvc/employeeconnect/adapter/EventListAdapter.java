@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.bvc.employeeconnect.R;
 import ca.bvc.employeeconnect.model.Event;
@@ -16,9 +17,9 @@ import ca.bvc.employeeconnect.model.Event;
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventListHolder> {
 
     private Context context;
-    private ArrayList<Event> listEvents;
+    private List<Event> listEvents;
 
-    public EventListAdapter(Context context, ArrayList<Event> events) {
+    public EventListAdapter(Context context, List<Event> events) {
         this.context = context;
         this.listEvents = events;
     }
