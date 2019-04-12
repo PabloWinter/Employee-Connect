@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,7 @@ public class ScheduleFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private EventViewModel eventViewModel;
+    private FloatingActionButton floatingActionButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -85,7 +87,6 @@ public class ScheduleFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//
     }
 
     @Override
@@ -132,6 +133,18 @@ public class ScheduleFragment extends Fragment {
 
             }
         });
+
+        //--------
+        floatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.floating_button);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), RequestDayOffActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
         initEventsRecyclerView();
