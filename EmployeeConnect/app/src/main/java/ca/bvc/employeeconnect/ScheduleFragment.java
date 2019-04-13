@@ -131,7 +131,9 @@ public class ScheduleFragment extends Fragment {
                 startActivity(intent);
 
             }
+
         });
+
 
         floatingActionButton = rootView.findViewById(R.id.floating_button);
 

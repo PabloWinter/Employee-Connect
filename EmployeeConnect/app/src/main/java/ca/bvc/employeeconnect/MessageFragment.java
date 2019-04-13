@@ -12,6 +12,19 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+
+import ca.bvc.employeeconnect.adapter.ChatListAdapter;
+import ca.bvc.employeeconnect.model.Message;
 import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
 
 
