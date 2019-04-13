@@ -1,44 +1,17 @@
 package ca.bvc.employeeconnect;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.protobuf.Timestamp;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import ca.bvc.employeeconnect.adapter.ChatListAdapter;
-import ca.bvc.employeeconnect.model.Message;
 import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
 
 
@@ -109,66 +82,8 @@ public class MessageFragment extends Fragment {
         viewModel.initChatRecyclerView(context, chatRecyclerView);
         TextView textView = view.findViewById(R.id.input_message);
         ImageButton sendBtn = view.findViewById(R.id.button_send);
-        viewModel.initChatSendMessageListner(context, textView, sendBtn);
+        viewModel.initChatSendMessageListener(context, textView, sendBtn);
     }
-
-//    private void initChatSendMessageListner(View view) {
-//        ImageButton sendButton = view.findViewById(R.id.button_send);
-//        sendButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                final TextView inputTextView = (TextView) getActivity().findViewById(R.id.input_message);
-//                String textMessage = inputTextView.getText().toString();
-//
-//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//
-//                messageViewModel.sendMessage(user.getDisplayName(), textMessage, new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                inputTextView.setText("");
-//                                Toast.makeText(getActivity(), "Your message was sent", Toast.LENGTH_LONG).show();
-//                            }
-//                        }
-//                        , new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                inputTextView.setText("");
-//                                Toast.makeText(getActivity(), "Could not send message", Toast.LENGTH_LONG).show();
-//                            }
-//                        }
-//                );
-//            }
-//        });
-//    }
-
-//    private void initChatRecyclerView() {
-//        final LinearLayoutManager chatLinearLayoutManager = new LinearLayoutManager(mContext);
-//
-//        messageViewModel =  ViewModelProviders.of(this).get(MessageViewModel.class);
-//
-//        LiveData<QuerySnapshot> messagesLiveData = messageViewModel.getMessages();
-//        messagesLiveData.observe(this, new Observer<QuerySnapshot>() {
-//            @Override
-//            public void onChanged(@Nullable QuerySnapshot querySnapshot) {
-//                if (querySnapshot != null) {
-//                    ArrayList<Message> messages = new ArrayList<>();
-//                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
-//                        messages.add(new Message(doc.getString("SenderName"), doc.getString("Text"), doc.getTimestamp("TimeStamp")));
-//                    }
-//                    messages.sort(new Comparator<Message>() {
-//                        @Override
-//                        public int compare(Message o1, Message o2) {
-//                            return o1.getTimestamp().compareTo(o2.getTimestamp()) ;
-//                        }
-//                    });
-//                    chatRecyclerView.setAdapter(new ChatListAdapter(mContext, messages));
-//                    if (chatRecyclerView.getLayoutManager() == null) {
-//                        chatRecyclerView.setLayoutManager(chatLinearLayoutManager);
-//                    }
-//                }
-//            }
-//        });
-//    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
