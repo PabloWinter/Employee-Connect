@@ -1,6 +1,8 @@
 package ca.bvc.employeeconnect;
 
 import android.app.DatePickerDialog;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,28 +10,40 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.type.Date;
 
 import java.util.Calendar;
 
+import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
+import ca.bvc.employeeconnect.viewmodel.RequestViewModel;
+import ca.bvc.employeeconnect.viewmodel.UserViewModel;
+
 public class RequestDayOffActivity extends AppCompatActivity {
 
     private DatePickerDialog.OnDateSetListener onDateSetListener;
-    private Button button;
+    private Button buttonGetDate;
     private TextView dateText;
+    private EditText employeeCode;
+    private EditText employeeReason;
+    private Button submitEmployee;
+    private Button cancelForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_day_off);
 
-        button = findViewById(R.id.enter_new_date);
+        buttonGetDate = findViewById(R.id.enter_new_date);
         dateText = findViewById(R.id.date_text);
+        employeeCode = findViewById(R.id.employee_code);
+        employeeReason = findViewById(R.id.employee_reason);
+        submitEmployee = findViewById(R.id.submit_employee_form);
+        cancelForm = findViewById(R.id.cancel_button);
 
-
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonGetDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
@@ -51,7 +65,18 @@ public class RequestDayOffActivity extends AppCompatActivity {
                 dateText.setText(date);
             }
         };
-    }
 
-    // function to get the employees data from the form
+        submitEmployee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Instance of view model to submit employee application
+                RequestViewModel requestViewModel = new RequestViewModel();
+                String codeEmployee = employeeCode.getText().toString();
+                String reason = employeeReason.getText().toString();
+                String date = dateText.getText().toString();
+                //UserViewModel userViewModel = new UserViewModel();
+                requestViewModel.sendRequestDayOff(RequestDayOffActivity.this,"Pablo", codeEmployee, date, reason);
+            }
+        });
+    }
 }
