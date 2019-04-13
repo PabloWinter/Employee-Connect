@@ -12,29 +12,32 @@
         android:layout_height="80dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_menu_profile"
-        android:layout_marginTop="150sp"/>
+        android:layout_marginTop="150sp"
+        android:contentDescription="@string/default_pic_content_description"/>
 
     <EditText
         android:id="@+id/user_login_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="User_login Id"
+        android:hint="@string/user_id_hint"
         android:inputType="text"
         android:textSize="20sp"
         android:maxLines="1"
         android:singleLine="true"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp"
+        android:autofillHints="@string/user_id_hint" tools:targetApi="o"/>
 
     <EditText
         android:id="@+id/user_login_pin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Pin"
+        android:hint="@string/pin_hint"
         android:inputType="numberPassword"
         android:textSize="20sp"
         android:maxLines="1"
         android:singleLine="true"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp"
+        android:importantForAutofill="no" tools:targetApi="o"/>
 
     <Button
         style="?android:textAppearanceSmall"
@@ -42,9 +45,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Submit"
+        android:text="@string/login_btn_text"
         android:onClick="loginUser"
         android:background="@color/colorPrimary"
         android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_up_text"
+            android:layout_gravity="center"
+            android:text="@string/sign_up_text"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_up_btn_text"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"/>
 
 </LinearLayout>
