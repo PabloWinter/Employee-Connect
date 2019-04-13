@@ -1,22 +1,16 @@
 package ca.bvc.employeeconnect;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,8 +39,6 @@ import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
  */
 public class MessageFragment extends Fragment {
 
-    private Context mContext;
-
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -56,8 +48,6 @@ public class MessageFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private RecyclerView chatRecyclerView;
-    private MessageViewModel messageViewModel;
 
     /**
      * Use this factory method to create a new instance of
@@ -93,69 +83,19 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
-        mContext = this.getContext();
-        chatRecyclerView = view.findViewById(R.id.communication_recycler_container);
-        initChatRecyclerView();
-        initChatSendMessageListner(view);
+        getActivity().setTitle("Communication");
+        attachViewModel(view);
         return view;
     }
 
-    private void initChatSendMessageListner(View view) {
-        ImageButton sendButton = view.findViewById(R.id.button_send);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final TextView inputTextView = (TextView) getActivity().findViewById(R.id.input_message);
-                String textMessage = inputTextView.getText().toString();
-
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                messageViewModel.sendMessage(user.getDisplayName(), textMessage, new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                inputTextView.setText("");
-                                Toast.makeText(getActivity(), "Your message was sent", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        , new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                inputTextView.setText("");
-                                Toast.makeText(getActivity(), "Could not send message", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                );
-            }
-        });
-    }
-
-    private void initChatRecyclerView() {
-        final LinearLayoutManager chatLinearLayoutManager = new LinearLayoutManager(mContext);
-
-        messageViewModel =  ViewModelProviders.of(this).get(MessageViewModel.class);
-
-        LiveData<QuerySnapshot> messagesLiveData = messageViewModel.getMessages();
-        messagesLiveData.observe(this, new Observer<QuerySnapshot>() {
-            @Override
-            public void onChanged(@Nullable QuerySnapshot querySnapshot) {
-                if (querySnapshot != null) {
-                    ArrayList<Message> messages = new ArrayList<>();
-                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
-                        messages.add(new Message(doc.getString("SenderName"), doc.getString("Text"), doc.getTimestamp("TimeStamp")));
-                    }
-                    messages.sort(new Comparator<Message>() {
-                        @Override
-                        public int compare(Message o1, Message o2) {
-                            return o1.getTimestamp().compareTo(o2.getTimestamp()) ;
-                        }
-                    });
-                    chatRecyclerView.setAdapter(new ChatListAdapter(mContext, messages));
-                    if (chatRecyclerView.getLayoutManager() == null) {
-                        chatRecyclerView.setLayoutManager(chatLinearLayoutManager);
-                    }
-                }
-            }
-        });
+    private void attachViewModel(View view) {
+        RecyclerView chatRecyclerView = view.findViewById(R.id.communication_recycler_container);
+        Context context = getActivity();
+        MessageViewModel viewModel = ViewModelProviders.of(this).get(MessageViewModel.class);
+        viewModel.initChatRecyclerView(context, chatRecyclerView);
+        TextView textView = view.findViewById(R.id.input_message);
+        ImageButton sendBtn = view.findViewById(R.id.button_send);
+        viewModel.initChatSendMessageListener(context, textView, sendBtn);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

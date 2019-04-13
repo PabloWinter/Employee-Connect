@@ -36,6 +36,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Arrays;
 import java.util.List;
 
+import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.viewmodel.UserViewModel;
 
 public class Home extends AppCompatActivity
@@ -49,11 +50,8 @@ public class Home extends AppCompatActivity
 
     private Context mContext;
 
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthListner;
-    private static final int RC_SIGN_IN = 1;
+    private static final int RC_EMPLOYEE_SIGN_IN = 1;
 
-    List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(), new AuthUI.IdpConfig.GoogleBuilder().build());
 
     private String TAG_SCHEDULE_FRAGMENT = "ca.bvc.employeeconnect.schedule.fragment";
     private String TAG_MESSAGE_FRAGMENT = "ca.bvc.employeeconnect.message.fragment";
@@ -95,55 +93,42 @@ public class Home extends AppCompatActivity
         toggle.syncState();
     }
 
+
+    private void showUserInfo(User user) {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        TextView navUserName = (TextView)hView.findViewById(R.id.userName);
+        TextView navUserEmail = (TextView)hView.findViewById(R.id.userEmail);
+        ImageView navUserImage = (ImageView)hView.findViewById(R.id.userImage);
+
+        if (user != null) {
+            navUserName.setText(user.getName());
+            navUserEmail.setText(user.getEmail());
+            Glide.with(mContext)
+                    .load(user.getPhotoUrl())
+                    .error(R.drawable.ic_menu_home)
+                    .into(navUserImage);
+        }
+    }
+
     private void initAuth() {
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mAuthListner = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null ) {
-
-                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                    View hView =  navigationView.getHeaderView(0);
-                    TextView navUserName = (TextView)hView.findViewById(R.id.userName);
-                    TextView navUserEmail = (TextView)hView.findViewById(R.id.userEmail);
-                    ImageView navUserImage = (ImageView)hView.findViewById(R.id.userImage);
-
-                    if (user.getDisplayName() != null && navUserName != null) {
-                        navUserName.setText(user.getDisplayName());
-                    }
-                    if (user.getEmail() != null && navUserEmail != null ) {
-                        navUserEmail.setText(user.getEmail());
-                    }
-                    if(user.getPhotoUrl() != null && navUserEmail != null) {
-                        Glide.with(mContext)
-                                .load(user.getPhotoUrl())
-                                .error(R.drawable.ic_menu_home)
-                                .into(navUserImage);
-                    }
-                } else  {
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setAvailableProviders(providers)
-                                    .setIsSmartLockEnabled(false)
-                                    .build(),
-                            RC_SIGN_IN);
-                }
-            }
-        };
+        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        if (userViewModel.getUser(this) == null) {
+            //start Login Activity
+            startActivityForResult(new Intent(mContext, LoginActivity.class), RC_EMPLOYEE_SIGN_IN);
+        } else {
+            showUserInfo(userViewModel.getUser(this));
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mFirebaseAuth.removeAuthStateListener(mAuthListner);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthListner);
     }
 
     @Override
@@ -194,13 +179,7 @@ public class Home extends AppCompatActivity
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, tag).addToBackStack(TAG_SCHEDULE_FRAGMENT).commit();
         } else if (selectedOption == R.id.navigation_logout) {
-            AuthUI.getInstance().signOut(this)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(mContext, "Log Out", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            logOutUser();
         } else {
             tag = TAG_SCHEDULE_FRAGMENT;
             fragment = fragmentManager.findFragmentByTag(tag);
@@ -215,6 +194,12 @@ public class Home extends AppCompatActivity
         return true;
     }
 
+    private void logOutUser() {
+        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.logOutUser(this);
+        startActivityForResult(new Intent(mContext, LoginActivity.class), RC_EMPLOYEE_SIGN_IN);
+    }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
@@ -222,5 +207,9 @@ public class Home extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_EMPLOYEE_SIGN_IN) {
+            UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+            showUserInfo(userViewModel.getUser(this));
+        }
     }
 }

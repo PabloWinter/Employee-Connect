@@ -1,18 +1,36 @@
 package ca.bvc.employeeconnect;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
+import ca.bvc.employeeconnect.adapter.ChatListAdapter;
+import ca.bvc.employeeconnect.adapter.EventListAdapter;
+import ca.bvc.employeeconnect.model.Event;
+import ca.bvc.employeeconnect.viewmodel.EventViewModel;
 
 
 /**
@@ -36,6 +54,9 @@ public class ScheduleFragment extends Fragment {
     private CalendarView myCalender;
 
     private OnFragmentInteractionListener mListener;
+
+    private EventViewModel eventViewModel;
+    private FloatingActionButton floatingActionButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,7 +86,6 @@ public class ScheduleFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//
     }
 
     @Override
@@ -115,6 +135,20 @@ public class ScheduleFragment extends Fragment {
         });
 
 
+        floatingActionButton = rootView.findViewById(R.id.floating_button);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), RequestDayOffActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        RecyclerView eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
+        eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
+        eventViewModel.initEventRecycler(getActivity(), eventRecyclerView, new Date());
+        //initEventsRecyclerView();
         return rootView;
     }
 

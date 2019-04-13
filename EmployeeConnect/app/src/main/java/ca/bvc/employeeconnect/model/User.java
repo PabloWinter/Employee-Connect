@@ -16,12 +16,15 @@ public class User {
     public String getStoreId() {
         return storeId;
     }
+    private boolean admin;
 
-    public User(String name, String email, String logoUrl, String id) {
+    public User(String name, String email, String logoUrl, String id, String storeId, boolean admin) {
         this.name = name;
         this.email = email;
         this.photoUrl = logoUrl;
         this.id = id;
+        this.storeId = storeId;
+        this.admin = admin;
     }
 
     public User(String name, String uId, String sId){
