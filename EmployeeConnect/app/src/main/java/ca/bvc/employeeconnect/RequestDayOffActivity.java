@@ -12,11 +12,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.type.Date;
 
 import java.util.Calendar;
 
+import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
 import ca.bvc.employeeconnect.viewmodel.RequestViewModel;
 import ca.bvc.employeeconnect.viewmodel.UserViewModel;
@@ -71,11 +73,23 @@ public class RequestDayOffActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Instance of view model to submit employee application
                 RequestViewModel requestViewModel = new RequestViewModel();
+                // Getting users name from user view model
+                User user = UserViewModel.getUser(RequestDayOffActivity.this);
+                // Assign user name to use it as a parameter
+                String userName = user.getName();
                 String codeEmployee = employeeCode.getText().toString();
                 String reason = employeeReason.getText().toString();
                 String date = dateText.getText().toString();
-                //UserViewModel userViewModel = new UserViewModel();
-                requestViewModel.sendRequestDayOff(RequestDayOffActivity.this,"Pablo", codeEmployee, date, reason);
+
+                if (userName.isEmpty()  || codeEmployee.isEmpty() || reason.isEmpty() || date.isEmpty()){
+                    Toast.makeText(RequestDayOffActivity.this, "Error, fields cannot be empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                else {
+                    // Send request to Firestore
+                    requestViewModel.sendRequestDayOff(RequestDayOffActivity.this, userName, codeEmployee, date, reason);
+                }
             }
         });
     }
