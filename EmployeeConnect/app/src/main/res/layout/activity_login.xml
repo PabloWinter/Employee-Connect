@@ -7,33 +7,44 @@
     tools:context=".LoginActivity"
     android:padding="12dp">
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_menu_profile"
-            android:layout_marginTop="150sp"/>
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_menu_profile"
+        android:layout_marginTop="150sp"/>
 
-        <EditText
-            android:id="@+id/secret_key"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Employer Code: "
-            android:inputType="text"
-            android:textSize="20sp"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:layout_marginTop="15dp"/>
+    <EditText
+        android:id="@+id/user_login_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="User_login Id"
+        android:inputType="text"
+        android:textSize="20sp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_marginTop="15dp"/>
 
-        <Button
-            style="?android:textAppearanceSmall"
-            android:id="@+id/verify_employer_code_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Submit"
-            android:onClick="verifyEmployerCode"
-            android:background="@color/colorPrimary"
-            android:textStyle="bold" />
+    <EditText
+        android:id="@+id/user_login_pin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pin"
+        android:inputType="numberPassword"
+        android:textSize="20sp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_marginTop="15dp"/>
 
-    </LinearLayout>
+    <Button
+        style="?android:textAppearanceSmall"
+        android:id="@+id/sign_in_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Submit"
+        android:onClick="loginUser"
+        android:background="@color/colorPrimary"
+        android:textStyle="bold" />
+
+</LinearLayout>

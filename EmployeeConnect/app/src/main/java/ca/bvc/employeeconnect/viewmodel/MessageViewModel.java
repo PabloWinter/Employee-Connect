@@ -46,35 +46,7 @@ public class MessageViewModel extends ViewModel {
 
     private FirebaseQueryLiveData liveData = new FirebaseQueryLiveData(db.collection("messages"));
 
-    @Nonnull
-    public LiveData<QuerySnapshot> getMessages() {
-        return liveData;
-    }
-
-    public void sendMessage(String user, String message, final OnSuccessListener<DocumentReference> successListener, final OnFailureListener failureListener){
-        Map<String, Object> chatMessage = new HashMap<>();
-        chatMessage.put("SenderName", user);
-        chatMessage.put("Text", message);
-        chatMessage.put("TimeStamp", new com.google.firebase.Timestamp(new Date()));
-
-        db.collection("messages")
-                .add(chatMessage)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        successListener.onSuccess(documentReference);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        failureListener.onFailure(e);
-                    }
-                });
-
-    }
-
-    public void initChatSendMessageListner(final Context context, final TextView inputTextView, final ImageButton sendMessageBtn) {
+    public void initChatSendMessageListener(final Context context, final TextView inputTextView, final ImageButton sendMessageBtn) {
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

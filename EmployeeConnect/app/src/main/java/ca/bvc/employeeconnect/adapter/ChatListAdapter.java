@@ -33,10 +33,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatListHolder gameListHolder, final int position) {
-        gameListHolder.senderNameText.setText(mMessages.get(position).getSenderName());
-        gameListHolder.timeStampText.setText(mMessages.get(position).getTimestamp().toDate().toString());
-        gameListHolder.messageBodyText.setText(mMessages.get(position).getMessageBody());
+    public void onBindViewHolder(@NonNull ChatListHolder chatListHolder, final int position) {
+        chatListHolder.senderNameText.setText(mMessages.get(position).getSenderName());
+        chatListHolder.timeStampText.setText(mMessages.get(position).getTimestamp().toDate().toString());
+        chatListHolder.messageBodyText.setText(mMessages.get(position).getMessageBody());
     }
 
     @Override

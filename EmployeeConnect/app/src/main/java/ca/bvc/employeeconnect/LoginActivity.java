@@ -1,6 +1,8 @@
 package ca.bvc.employeeconnect;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,10 +19,10 @@ import com.firebase.ui.auth.AuthUI;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity {
+import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
+import ca.bvc.employeeconnect.viewmodel.UserViewModel;
 
-    private static final int RC_SIGN_IN = 7;
-    public static final String ADMIN_TAG = "admin";
+public class LoginActivity extends AppCompatActivity {
 
     private List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(), new AuthUI.IdpConfig.GoogleBuilder().build());
 
@@ -30,45 +32,21 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
 
-    public void verifyEmployerCode(View view) {
-        final Context context = this;
-        EditText editText = ((Activity) context).findViewById(R.id.secret_key);
-        String userEmployerCodeInput = editText.getText().toString();
-        if (userEmployerCodeInput.equals(getText(R.string.employee_secret_key))) {
-            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean(ADMIN_TAG, false);
-            editor.commit();
-            initFirebaseAuthRegister();
-        } else if (userEmployerCodeInput.equals(getText(R.string.admin_secret_key))) {
-            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean(ADMIN_TAG, true);
-            editor.commit();
-            initFirebaseAuthRegister();
-        }
-        else {
-            Toast.makeText(context,  getString(R.string.wrong_employer_code_msg), Toast.LENGTH_SHORT).show();
-        }
+    public void loginUser(View view) {
+        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        String userId = ((EditText)((Activity) this).findViewById(R.id.user_login_id)).getText().toString();
+        String pin = ((EditText)((Activity) this).findViewById(R.id.user_login_pin)).getText().toString();
+        userViewModel.authenticateUser(userId, pin, this);
     }
 
-    private void initFirebaseAuthRegister() {
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .setIsSmartLockEnabled(false)
-                        .build(),
-                RC_SIGN_IN);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            Intent intent = getIntent();
-            setResult(RESULT_OK, intent);
-            finish();
-        }
+//        if (requestCode == RC_SIGN_IN) {
+//            Intent intent = getIntent();
+//            setResult(RESULT_OK, intent);
+//            finish();
+//        }
     }
 }

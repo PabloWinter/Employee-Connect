@@ -1,13 +1,36 @@
 package ca.bvc.employeeconnect.model;
 
-public class User {
-    private String name, email, photoUrl, id;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserInfo;
 
-    public User(String name, String email, String logoUrl, String id) {
+import java.util.List;
+
+public class User {
+    private String name;
+    private String email;
+    private String photoUrl;
+    private String id;
+    private String storeId;
+
+
+    public String getStoreId() {
+        return storeId;
+    }
+    private boolean admin;
+
+    public User(String name, String email, String logoUrl, String id, String storeId, boolean admin) {
         this.name = name;
         this.email = email;
         this.photoUrl = logoUrl;
         this.id = id;
+        this.storeId = storeId;
+        this.admin = admin;
+    }
+
+    public User(String name, String uId, String sId){
+        this.name = name;
+        this.id = uId;
+        this.storeId = sId;
     }
 
     public String getName() {
@@ -41,4 +64,5 @@ public class User {
     public void setId(String id) {
         this.id = id;
     }
+
 }
