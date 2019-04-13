@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="409dp"
+        android:layout_height="462dp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/add_button_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="350dp"
+            android:text="Add"
+            tools:layout_editor_absoluteX="278dp"
+            tools:layout_editor_absoluteY="198dp" />
+
+        <TextView
+            android:id="@+id/end_time_id"
+            android:layout_width="186dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="120dp"
+            android:text="click to choose your time"
+            tools:layout_editor_absoluteX="197dp"
+            tools:layout_editor_absoluteY="136dp" />
+
+        <TextView
+            android:id="@+id/start_time_id"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="60dp"
+            android:hint="click to choose your time"
+            tools:layout_editor_absoluteX="197dp"
+            tools:layout_editor_absoluteY="78dp" />
+
+        <TextView
+            android:id="@+id/end_time_view"
+            android:layout_width="117dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="120dp"
+            android:text="End Time"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10pt"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="138dp" />
+
+        <TextView
+            android:id="@+id/start_time_view"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="60dp"
+            android:text="Start Time"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10pt"
+            tools:layout_editor_absoluteX="21dp"
+            tools:layout_editor_absoluteY="80dp" />
+
+        <TextView
+            android:id="@+id/username_id"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:hint="UserName"
+            android:textSize="10pt"
+            />
+
+        <TextView
+            android:id="@+id/note_view"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="180dp"
+            android:text="Note"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10pt"
+            tools:layout_editor_absoluteX="21dp"
+            tools:layout_editor_absoluteY="80dp" />
+
+        <TextView
+            android:id="@+id/shift_title_view"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="250dp"
+            android:text="Title"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10pt"
+            tools:layout_editor_absoluteX="21dp"
+            tools:layout_editor_absoluteY="80dp" />
+
+        <EditText
+            android:id="@+id/note_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="180dp"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+
+        <EditText
+            android:id="@+id/shift_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="250dp"
+            android:ems="10"
+            android:text="Shift" />
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

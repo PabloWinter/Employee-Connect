@@ -17,8 +17,8 @@
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#DCDCDC"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="#DCDCDC" />
 
         <ScrollView
             android:layout_width="match_parent"

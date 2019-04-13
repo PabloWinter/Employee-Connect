@@ -111,7 +111,10 @@ public class ScheduleFragment extends Fragment {
                 startActivity(intent);
 
             }
+
         });
+
+
         return rootView;
     }
 
