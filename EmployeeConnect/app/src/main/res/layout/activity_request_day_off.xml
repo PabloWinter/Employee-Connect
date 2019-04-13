@@ -7,23 +7,23 @@
     tools:context=".RequestDayOffActivity"
     android:orientation="vertical">
 
-    <EditText
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="40dp"
-        android:textSize="21dp"
-        android:background="@drawable/input_background"
-        android:hint="Enter Name"/>
+        android:text="Request Day Off Form"
+        android:textSize="20dp"
+        android:layout_margin="20dp"
+        android:textStyle="bold"/>
+
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:textSize="21dp"
+        android:gravity="center"
         android:background="@drawable/input_background"
         android:hint="Enter Employee code"/>
 
@@ -42,10 +42,19 @@
             android:textSize="21sp"/>
 
         <Button
+            android:id="@+id/enter_new_date"
             android:layout_width="45dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_calendar"
             android:backgroundTint="#007bff"/>
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text=""
+            android:textSize="21sp"/>
 
 
     </LinearLayout>
@@ -59,7 +68,7 @@
         android:hint="Enter Reason"
         android:textSize="21dp"
         android:background="@drawable/input_background"
-        android:gravity="start"/>
+        android:gravity="center"/>
 
     <LinearLayout
         android:layout_width="match_parent"
