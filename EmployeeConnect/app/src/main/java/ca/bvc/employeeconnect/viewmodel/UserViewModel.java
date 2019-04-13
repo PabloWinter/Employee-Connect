@@ -17,6 +17,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
+import ca.bvc.employeeconnect.Home;
 import ca.bvc.employeeconnect.R;
 import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
@@ -65,9 +66,11 @@ public class UserViewModel extends ViewModel {
                     editor.putString(USER_PREF_TAG, serializedUser);
                     editor.commit();
 
-                    Intent intent = activity.getIntent();
-                    activity.setResult(RESULT_OK, intent);
+                    Intent intent = new Intent(activity, Home.class);
+                    activity.startActivity(intent);
                     activity.finish();
+//                    activity.setResult(RESULT_OK, intent);
+//                    activity.finish();
                     Toast.makeText(activity, "Sign In Success", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(activity, task.getResult().size() + "Sign In Failed.", Toast.LENGTH_SHORT).show();

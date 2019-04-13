@@ -71,8 +71,8 @@ public class Home extends AppCompatActivity
         //initialize navigation view
         initNavigation();
 
-        //handle user sign in logic
-        initAuth();
+        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        showUserInfo(userViewModel.getUser(this));
     }
 
     private void initNavigation() {
@@ -115,7 +115,8 @@ public class Home extends AppCompatActivity
         UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         if (userViewModel.getUser(this) == null) {
             //start Login Activity
-            startActivityForResult(new Intent(mContext, LoginActivity.class), RC_EMPLOYEE_SIGN_IN);
+            Intent loginIntent = new Intent(mContext, LoginActivity.class);
+            startActivityForResult(loginIntent, RC_EMPLOYEE_SIGN_IN);
         } else {
             showUserInfo(userViewModel.getUser(this));
         }
@@ -197,7 +198,9 @@ public class Home extends AppCompatActivity
     private void logOutUser() {
         UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         userViewModel.logOutUser(this);
-        startActivityForResult(new Intent(mContext, LoginActivity.class), RC_EMPLOYEE_SIGN_IN);
+        Intent loginIntent = new Intent(mContext, LoginActivity.class);
+        startActivityForResult(loginIntent, RC_EMPLOYEE_SIGN_IN);
+        finish();
     }
 
     @Override
@@ -207,9 +210,5 @@ public class Home extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_EMPLOYEE_SIGN_IN) {
-            UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-            showUserInfo(userViewModel.getUser(this));
-        }
     }
 }
