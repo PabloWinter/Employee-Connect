@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,7 +20,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -93,45 +96,14 @@ public class ScheduleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
+        final RecyclerView recyclerView = rootView.findViewById(R.id.event_recycler_view);
         myCalender = (CalendarView)rootView.findViewById(R.id.calendarView);
         myCalender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String date = year + "/" + month + "/" + dayOfMonth;
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, month, dayOfMonth);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                Intent intent = new Intent(".UserScheduleForm");
-                switch (dayOfWeek){
-                    case (1):
-                        intent.putExtra("WEEK_DAY", "Sunday");
-                        break;
-                    case (2):
-                        intent.putExtra("WEEK_DAY", "Monday");
-                        break;
-                    case (3):
-                        intent.putExtra("WEEK_DAY", "Tuesday");
-                        break;
-                    case (4):
-                        intent.putExtra("WEEK_DAY", "Wednesday");
-                        break;
-                    case (5):
-                        intent.putExtra("WEEK_DAY", "Thursday");
-                        break;
-                    case (6):
-                        intent.putExtra("WEEK_DAY", "Friday");
-                        break;
-                    case (7):
-                        intent.putExtra("WEEK_DAY", "Saturday");
-                        break;
-                    default:
-                        break;
-                }
-                intent.putExtra("DATE", date);
-                startActivity(intent);
-
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                EventViewModel eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
+                eventViewModel.initEventRecycler(getActivity(), recyclerView, MyDate.getDate(dayOfMonth, month, year));
             }
-
         });
 
 
@@ -145,10 +117,10 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
-        RecyclerView eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
-        eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
-        eventViewModel.initEventRecycler(getActivity(), eventRecyclerView, new Date());
-        //initEventsRecyclerView();
+//        RecyclerView eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
+//        eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
+//        eventViewModel.initEventRecycler(getActivity(), eventRecyclerView, new Date());
+
         return rootView;
     }
 
