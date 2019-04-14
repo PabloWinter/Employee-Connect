@@ -15,8 +15,8 @@
         android:layout_margin="20dp"
         android:textStyle="bold"/>
 
-
     <EditText
+        android:id="@+id/employee_code"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="20dp"
@@ -60,6 +60,7 @@
     </LinearLayout>
 
     <EditText
+        android:id="@+id/employee_reason"
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:layout_marginLeft="20dp"
@@ -76,6 +77,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_marginLeft="120dp"
             android:layout_marginTop="30dp"
@@ -83,6 +85,7 @@
             android:text="Cancel"/>
 
         <Button
+            android:id="@+id/submit_employee_form"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

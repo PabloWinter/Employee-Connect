@@ -43,7 +43,8 @@ public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
             UserProfileFragment.OnFragmentInteractionListener,
             MessageFragment.OnFragmentInteractionListener,
-            ScheduleFragment.OnFragmentInteractionListener{
+            ScheduleFragment.OnFragmentInteractionListener,
+            ListDayOffRequestFragment.OnFragmentInteractionListener{
 
     //fragment object
     Fragment fragment;
@@ -52,10 +53,10 @@ public class Home extends AppCompatActivity
 
     private static final int RC_EMPLOYEE_SIGN_IN = 1;
 
-
     private String TAG_SCHEDULE_FRAGMENT = "ca.bvc.employeeconnect.schedule.fragment";
     private String TAG_MESSAGE_FRAGMENT = "ca.bvc.employeeconnect.message.fragment";
     private String TAG_USER_PROFILE_FRAGMENT = "ca.bvc.employeeconnect.profile.fragment";
+    private String TAG_REQUEST_LIST_FRAGMENT = "ca.bvc.employeeconnect.request.fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +178,13 @@ public class Home extends AppCompatActivity
             fragment = fragmentManager.findFragmentByTag(tag);
             if (fragment == null) {
                 fragment = new UserProfileFragment();
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, tag).addToBackStack(TAG_SCHEDULE_FRAGMENT).commit();
+        } else if (selectedOption == R.id.navigation_list_request_off){
+            tag = TAG_REQUEST_LIST_FRAGMENT;
+            fragment = fragmentManager.findFragmentByTag(tag);
+            if (fragment == null){
+                fragment = new ListDayOffRequestFragment();
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, tag).addToBackStack(TAG_SCHEDULE_FRAGMENT).commit();
         } else if (selectedOption == R.id.navigation_logout) {
