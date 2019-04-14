@@ -53,5 +53,11 @@
     <string name="employee_secret_key">1234567890</string>
     <string name="admin_secret_key">0987654321</string>
     <string name="wrong_employer_code_msg">Wrong Employer code. Please Try again.</string>
+    <string name="sign_up_btn_text">Sign Up</string>
+    <string name="sign_up_text"><![CDATA[Don\'t have an Account Sign up Now>]]></string>
+    <string name="user_id_hint">User Id</string>
+    <string name="pin_hint">Pin</string>
+    <string name="login_btn_text">Login</string>
+    <string name="default_pic_content_description">default pic</string>
 
 </resources>

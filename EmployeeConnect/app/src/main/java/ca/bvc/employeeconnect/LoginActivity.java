@@ -30,6 +30,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        if (userViewModel.getUser(this) != null) {
+            Intent intent = new Intent(this, Home.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void loginUser(View view) {
@@ -37,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         String userId = ((EditText)((Activity) this).findViewById(R.id.user_login_id)).getText().toString();
         String pin = ((EditText)((Activity) this).findViewById(R.id.user_login_pin)).getText().toString();
         userViewModel.authenticateUser(userId, pin, this);
+
     }
 
 
