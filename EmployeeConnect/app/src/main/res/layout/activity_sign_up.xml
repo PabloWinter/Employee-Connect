@@ -1,9 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity">
+    tools:context=".SignUpActivity"
+    android:orientation="vertical"
+    android:padding="12dp">
 
-</android.support.constraint.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_menu_profile"
+                android:layout_marginTop="60sp"
+                android:contentDescription="@string/default_pic_content_description"/>
+
+            <EditText
+                android:id="@+id/user_sign_up_employer_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sign_up_employer_code"
+                android:inputType="number"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_marginTop="15dp"
+                android:importantForAutofill="no" tools:targetApi="o"/>
+
+            <EditText
+                android:id="@+id/user_sign_up_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sign_up_user_name"
+                android:inputType="text"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_marginTop="15dp"
+                android:autofillHints="@string/sign_up_user_name" tools:targetApi="o"/>
+
+            <EditText
+                android:id="@+id/user_sign_up_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sign_up_email"
+                android:inputType="textEmailAddress"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_marginTop="15dp"
+                android:importantForAutofill="no" tools:targetApi="o"/>
+
+            <EditText
+                android:id="@+id/user_sign_up_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/user_id_hint"
+                android:inputType="text"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_marginTop="15dp"
+                android:autofillHints="@string/user_id_hint" tools:targetApi="o"/>
+
+            <EditText
+                android:id="@+id/user_sign_up_pin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/pin_hint"
+                android:inputType="numberPassword"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_marginTop="15dp"
+                android:importantForAutofill="no" tools:targetApi="o"/>
+
+            <EditText
+                android:id="@+id/user_sign_up_confirm_pin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sign_up_confirm_pin"
+                android:inputType="numberPassword"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_marginTop="15dp"
+                android:importantForAutofill="no" tools:targetApi="o"/>
+
+            <Button
+                style="?android:textAppearanceSmall"
+                android:id="@+id/sign_up_page_sign_up_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/sign_up_btn_text"
+                android:onClick="signUpUser"
+                android:background="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sign_up_text"
+                android:layout_gravity="center"
+                android:text="Already have an account login now >"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"/>
+
+            <Button
+                android:id="@+id/sign_up_page_login_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_btn_text"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:onClick="openLoginPage"
+                android:background="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

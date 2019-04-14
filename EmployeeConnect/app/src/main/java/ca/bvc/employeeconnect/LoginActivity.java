@@ -43,17 +43,17 @@ public class LoginActivity extends AppCompatActivity {
         String userId = ((EditText)((Activity) this).findViewById(R.id.user_login_id)).getText().toString();
         String pin = ((EditText)((Activity) this).findViewById(R.id.user_login_pin)).getText().toString();
         userViewModel.authenticateUser(userId, pin, this);
-
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == RC_SIGN_IN) {
-//            Intent intent = getIntent();
-//            setResult(RESULT_OK, intent);
-//            finish();
-//        }
+    }
+
+    public void openSignUpPage(View view) {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
