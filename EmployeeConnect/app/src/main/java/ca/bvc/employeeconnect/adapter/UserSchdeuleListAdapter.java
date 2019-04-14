@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
@@ -49,6 +50,8 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
     public void onBindViewHolder(@NonNull final ScheduleListHolder scheduleListHolder, final int i) {
 
         scheduleListHolder.userName.setText(mUsers.get(i).getName());
+
+        //set onclick listener for startTime Textview.
         scheduleListHolder.startTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +78,7 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
             }
         });
 
+        //set onclick listener for endTime Textview.
         scheduleListHolder.endTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,11 +104,20 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
             }
         });
 
+        //set onclick listener for button to add schedule to the firebase.
         scheduleListHolder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                scheduleViewModel.addSchedule(mUsers.get(i).getId(),mUsers.get(i).getStoreId(),scheduleListHolder.startTime.getText().toString()
-//                ,scheduleListHolder.endTime.getText().toString(),scheduleListHolder.note.getText().toString(),scheduleListHolder.title.getText().toString());
+                boolean status = scheduleViewModel.addSchedule(mUsers.get(i).getId(),mUsers.get(i).getStoreId(),scheduleListHolder.startTime.getText().toString()
+                ,scheduleListHolder.endTime.getText().toString(),scheduleListHolder.note.getText().toString(),scheduleListHolder.title.getText().toString());
+                if(status){
+                    Log.d("status", String.valueOf(status));
+                    Toast.makeText(mContext, "Schedule has been added", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Log.d("status", String.valueOf(status));
+                    Toast.makeText(mContext, "something wrong", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

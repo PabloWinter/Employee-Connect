@@ -3,9 +3,13 @@ package ca.bvc.employeeconnect.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -23,15 +27,20 @@ import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
 public class ScheduleViewModel extends ViewModel {
 
     private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    boolean status;
 
     private FirebaseQueryLiveData liveData = new FirebaseQueryLiveData(db.collection("users"));
 
+    //get all user from firebase.
     @Nonnull
     public LiveData<QuerySnapshot> getUserList() {
         return liveData;
     }
 
-    public void addSchedule(String userId, String storeId, String startTime, String endTime, String note, String title, final OnSuccessListener<DocumentReference> successListener, final OnFailureListener failureListener){
+    //add schedule to the firebase,
+    //if success then return true,
+    //if not then return false.
+    public boolean addSchedule(String userId, String storeId, String startTime, String endTime, String note, String title){
         Map<String, Object> userSchedule = new HashMap<>();
         userSchedule.put("EndTime", endTime);
         userSchedule.put("Name", title);
@@ -41,19 +50,21 @@ public class ScheduleViewModel extends ViewModel {
         userSchedule.put("TimeStamp", new com.google.firebase.Timestamp(new Date()));
         userSchedule.put("Uid", userId);
 
+        Log.d("schedule", userSchedule.toString());
         db.collection("events")
                 .add(userSchedule)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        successListener.onSuccess(documentReference);
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        status = true;
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        failureListener.onFailure(e);
+                        status = false;
                     }
                 });
+        return status;
     }
 }
