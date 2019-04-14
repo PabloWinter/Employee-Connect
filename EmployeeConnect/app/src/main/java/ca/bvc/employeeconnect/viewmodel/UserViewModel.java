@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ca.bvc.employeeconnect.Home;
+import ca.bvc.employeeconnect.LoginActivity;
 import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
 
@@ -107,49 +108,54 @@ public class UserViewModel extends ViewModel {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful() && task.getResult().size() >= 1) {
-                        DocumentSnapshot data = task.getResult().getDocuments().get(0);
-                        try {
-                            final boolean admin = verifyAdminUser(employeeNumber, data.getString("EmployeeRegisterKey"), data.getString("AdminRegisterKey"));
-                            final String storeId = data.getId();
+                        for (DocumentSnapshot data : task.getResult()){
+                            try {
+                                final boolean admin = verifyAdminUser(employeeNumber, data.getString("EmployeeRegisterKey"), data.getString("AdminRegisterKey"));
+                                final String storeId = data.getId();
 
-                            registerAccountQuery.whereEqualTo("Id", userId)
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful() && task.getResult().size() >= 1) {
-                                                Toast.makeText(activity, "Please use different userId. User Already Registered", Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                Map<String, Object>  user = new HashMap<String, Object>();
-                                                user.put("Admin", admin);
-                                                user.put("Email", email);
-                                                user.put("Id", userId);
-                                                user.put("Pin", pin);
-                                                user.put("Name", name);
-                                                user.put("StoreId", storeId);
-                                                ((CollectionReference) registerAccountQuery).add(user)
-                                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                                Toast.makeText(activity, "User Registered.", Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(activity, "Please Try again.", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
+                                registerAccountQuery.whereEqualTo("Id", userId)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful() && task.getResult().size() >= 1) {
+                                                    Toast.makeText(activity, "Please use different userId. User Already Registered", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Map<String, Object>  user = new HashMap<String, Object>();
+                                                    user.put("Admin", admin);
+                                                    user.put("Email", email);
+                                                    user.put("Id", userId);
+                                                    user.put("Pin", pin);
+                                                    user.put("Name", name);
+                                                    user.put("StoreId", storeId);
+                                                    ((CollectionReference) registerAccountQuery).add(user)
+                                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                                    Toast.makeText(activity, "User Registered.", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(activity, "Please Try again.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                    Intent intent = new Intent(activity, LoginActivity.class);
+                                                    activity.startActivity(intent);
+                                                    activity.finish();
+                                                }
                                             }
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(activity, "Please Try again.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        } catch (Exception e) {
-                            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(activity, "Please Try again.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                break;
+                            } catch (Exception e) {
+                                Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 }

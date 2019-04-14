@@ -27,9 +27,6 @@ public class SignUpActivity extends AppCompatActivity {
         String pin = ((EditText)((Activity) this).findViewById(R.id.user_sign_up_pin)).getText().toString();
         String confirmPin  = ((EditText)((Activity) this).findViewById(R.id.user_sign_up_confirm_pin)).getText().toString();
         userViewModel.registerAccount(this, employeeNumber, name, email, userId, pin, confirmPin);
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     public void openLoginPage(View view) {
