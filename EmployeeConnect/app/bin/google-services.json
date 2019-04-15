@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "587168780028",
+    "firebase_url": "https://employeeconnect-26bce.firebaseio.com",
+    "project_id": "employeeconnect-26bce",
+    "storage_bucket": "employeeconnect-26bce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587168780028:android:57ecc6b21176c6ff",
+        "android_client_info": {
+          "package_name": "ca.bvc.employeeconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587168780028-r05k27bd7i5hihdqmq78carns1sjthim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.bvc.employeeconnect",
+            "certificate_hash": "f64b4f7f9e71e024846962745ef2c8e1d638262f"
+          }
+        },
+        {
+          "client_id": "587168780028-r7upeterqpa3ackj05te3qfhtu07v6o4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5-IfJkAv_7PNqVEVtdpFLLONymWxiKMk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587168780028-r7upeterqpa3ackj05te3qfhtu07v6o4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

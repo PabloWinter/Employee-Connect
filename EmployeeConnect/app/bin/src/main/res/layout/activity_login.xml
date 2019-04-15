@@ -1,56 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
     android:orientation="vertical"
-    android:padding="20dp">
+    tools:context=".LoginActivity"
+    android:padding="12dp">
 
     <ImageView
-        android:layout_width="@dimen/app_logo_width"
-        android:layout_height="@dimen/app_logo_height"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:contentDescription="@string/app_logo_description"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:src="@drawable/ic_menu_profile"
+        android:layout_marginTop="150sp"
+        android:contentDescription="@string/default_pic_content_description"/>
 
     <EditText
+        android:id="@+id/user_login_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:inputType="textEmailAddress"
-        android:hint="@string/hint_email"
-        android:autofillHints="@string/hint_email"
-        tools:targetApi="o"/>
+        android:hint="@string/user_id_hint"
+        android:inputType="text"
+        android:textSize="20sp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_marginTop="15dp"
+        android:autofillHints="@string/user_id_hint" tools:targetApi="o"/>
 
     <EditText
+        android:id="@+id/user_login_pin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:inputType="textPassword"
-        android:hint="@string/hint_password"
-        android:autofillHints="@string/hint_password"
-        tools:targetApi="o"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_up_now_text"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:onClick="openLogin" />
+        android:hint="@string/pin_hint"
+        android:inputType="numberPassword"
+        android:textSize="20sp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_marginTop="15dp"
+        android:importantForAutofill="no" tools:targetApi="o"/>
 
     <Button
-        android:layout_width="wrap_content"
+        style="?android:textAppearanceSmall"
+        android:id="@+id/login_page_sign_in_btn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Log In"
-        android:layout_gravity="center"
-        android:onClick="registerUser"/>
+        android:layout_marginTop="15dp"
+        android:text="@string/login_btn_text"
+        android:onClick="loginUser"
+        android:background="@color/colorPrimary"
+        android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_up_text"
+            android:layout_gravity="center"
+            android:text="@string/sign_up_text"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"/>
+
+        <Button
+            android:id="@+id/login_page_sign_up_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_up_btn_text"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:onClick="openSignUpPage"
+            android:background="@color/colorPrimary"/>
 
 </LinearLayout>

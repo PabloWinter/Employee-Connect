@@ -58,28 +58,16 @@ public class UserScheduleForm extends AppCompatActivity {
         Intent intent = getIntent();
 
 
-        Date selectedDate = new Date(intent.getExtras().getLong(ScheduleFragment.EXTRA_SELECTED_DATE, -1));
+        final Date selectedDate = new Date(intent.getExtras().getLong(ScheduleFragment.EXTRA_SELECTED_DATE, -1));
 
         this.setTitle(selectedDate.toString());
 
         recyclerView = (RecyclerView)findViewById(R.id.user_recylerview_id);
 
-        //converting date to timestamp
-        String str_date = intent.getStringExtra("DATE");
-        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        Date convertedDate = null;
-        try {
-            convertedDate = (Date)formatter.parse(str_date);
-            Log.d("timestamp", new com.google.firebase.Timestamp(convertedDate).toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
 
         scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
         LiveData<QuerySnapshot> userLiveData = scheduleViewModel.getUserList();
 
-        final Date finalConvertedDate = convertedDate;
         userLiveData.observe(this, new Observer<QuerySnapshot>() {
             @Override
             public void onChanged(@Nullable QuerySnapshot querySnapshot) {
@@ -89,7 +77,7 @@ public class UserScheduleForm extends AppCompatActivity {
                         users.add(new User(doc.getString("Name"), doc.getId(), doc.getString("StoreId")));
                     }
 
-                    adapter = new UserSchdeuleListAdapter(UserScheduleForm.this,users, finalConvertedDate);
+                    adapter = new UserSchdeuleListAdapter(UserScheduleForm.this,users, selectedDate);
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 }
