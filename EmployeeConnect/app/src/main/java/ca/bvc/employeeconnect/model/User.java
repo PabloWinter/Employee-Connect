@@ -65,4 +65,8 @@ public class User {
         this.id = id;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
 }

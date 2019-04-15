@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 
 import ca.bvc.employeeconnect.adapter.ChatListAdapter;
 import ca.bvc.employeeconnect.adapter.UserSchdeuleListAdapter;
@@ -52,12 +53,13 @@ public class UserScheduleForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_schedule_form);
         Intent intent = getIntent();
-        this.setTitle(intent.getStringExtra("WEEK_DAY") + " Schedule");
+
+
+        Date selectedDate = new Date(intent.getExtras().getLong(ScheduleFragment.EXTRA_SELECTED_DATE, -1));
+
+        this.setTitle(selectedDate.toString());
 
         recyclerView = (RecyclerView)findViewById(R.id.user_recylerview_id);
-        date = (TextView)findViewById(R.id.date_textview_id);
-        date.setPaintFlags(date.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        date.setText(intent.getStringExtra("DATE"));
 
         scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
         LiveData<QuerySnapshot> userLiveData = scheduleViewModel.getUserList();
@@ -71,7 +73,7 @@ public class UserScheduleForm extends AppCompatActivity {
                         users.add(new User(doc.getString("Name"), doc.getId(), doc.getString("StoreId")));
                     }
 
-                    adapter = new UserSchdeuleListAdapter(UserScheduleForm.this,users);
+                    adapter = new UserSchdeuleListAdapter(UserScheduleForm.this, users);
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 }

@@ -1,39 +1,26 @@
 package ca.bvc.employeeconnect;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
-import ca.bvc.employeeconnect.adapter.ChatListAdapter;
-import ca.bvc.employeeconnect.adapter.EventListAdapter;
-import ca.bvc.employeeconnect.model.Event;
+import ca.bvc.employeeconnect.helper.MyDate;
+import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.viewmodel.EventViewModel;
+import ca.bvc.employeeconnect.viewmodel.UserViewModel;
 
 
 /**
@@ -60,6 +47,9 @@ public class ScheduleFragment extends Fragment {
 
     private EventViewModel eventViewModel;
     private FloatingActionButton floatingActionButton;
+    private Date selectedDate = MyDate.getCurrentTimeStamp().toDate();
+
+    public static String EXTRA_SELECTED_DATE = "SELECTED_DATE";
 
     /**
      * Use this factory method to create a new instance of
@@ -102,7 +92,9 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 EventViewModel eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
-                eventViewModel.initEventRecycler(getActivity(), recyclerView, MyDate.getDate(dayOfMonth, month, year));
+                Timestamp selectedTimestamp = MyDate.getDate(dayOfMonth, month, year);
+                selectedDate = selectedTimestamp.toDate();
+                eventViewModel.initEventRecycler(getActivity(), recyclerView, selectedTimestamp);
             }
         });
 
@@ -112,8 +104,18 @@ public class ScheduleFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), RequestDayOffActivity.class);
-                startActivity(intent);
+
+                UserViewModel userViewModel = ViewModelProviders.of(getActivity()).get(UserViewModel.class);
+                User user = userViewModel.getUser((getActivity()));
+
+                if (user.isAdmin()) {
+                    Intent intent = new Intent(getContext(), UserScheduleForm.class);
+                    intent.putExtra(EXTRA_SELECTED_DATE, selectedDate.getTime());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), RequestDayOffActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

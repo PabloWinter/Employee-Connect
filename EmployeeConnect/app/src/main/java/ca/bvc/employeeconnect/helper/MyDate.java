@@ -1,4 +1,4 @@
-package ca.bvc.employeeconnect;
+package ca.bvc.employeeconnect.helper;
 
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;

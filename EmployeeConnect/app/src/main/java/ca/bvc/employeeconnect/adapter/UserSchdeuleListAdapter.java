@@ -109,7 +109,7 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
             @Override
             public void onClick(View v) {
                 boolean status = scheduleViewModel.addSchedule(mUsers.get(i).getId(),mUsers.get(i).getStoreId(),scheduleListHolder.startTime.getText().toString()
-                ,scheduleListHolder.endTime.getText().toString(),scheduleListHolder.note.getText().toString(),scheduleListHolder.title.getText().toString());
+                                            ,scheduleListHolder.endTime.getText().toString(),scheduleListHolder.note.getText().toString(),scheduleListHolder.title.getText().toString());
                 if(status){
                     Log.d("status", String.valueOf(status));
                     Toast.makeText(mContext, "Schedule has been added", Toast.LENGTH_LONG).show();
