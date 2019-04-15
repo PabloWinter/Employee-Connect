@@ -1,17 +1,22 @@
 package ca.bvc.employeeconnect.adapter;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import ca.bvc.employeeconnect.R;
 import ca.bvc.employeeconnect.model.RequestDayOff;
+import ca.bvc.employeeconnect.model.User;
+import ca.bvc.employeeconnect.viewmodel.UserViewModel;
 
 public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.RequestListHolder>{
 

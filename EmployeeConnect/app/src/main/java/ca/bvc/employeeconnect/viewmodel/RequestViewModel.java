@@ -82,16 +82,10 @@ public class RequestViewModel {
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         list.add(new RequestDayOff(doc.getString("user"), "1234567890", doc.getString("reason"), doc.getString("date")));
                     }
-                    Toast.makeText(context, queryDocumentSnapshots.getDocuments().size() + " ", Toast.LENGTH_SHORT).show();
                     requestRecyclerView.setAdapter(new RequestListAdapter(context, list));
                     requestRecyclerView.setLayoutManager(layoutManager);
                 }
             }
         });
-
-//        db.collection("dayOff").get()
-//                .addOnSuccessListener(new )
-
-
     }
 }

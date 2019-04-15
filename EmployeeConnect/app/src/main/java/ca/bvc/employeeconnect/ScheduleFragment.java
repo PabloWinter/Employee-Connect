@@ -119,10 +119,6 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
-//        RecyclerView eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
-//        eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
-//        eventViewModel.initEventRecycler(getActivity(), eventRecyclerView, new Date());
-
         return rootView;
     }
 
