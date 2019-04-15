@@ -1,12 +1,15 @@
 package ca.bvc.employeeconnect.viewmodel;
 
+import android.app.Activity;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -26,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -38,6 +42,7 @@ import javax.annotation.Nonnull;
 
 import ca.bvc.employeeconnect.adapter.ChatListAdapter;
 import ca.bvc.employeeconnect.model.Message;
+import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
 
 public class MessageViewModel extends ViewModel {
@@ -52,11 +57,15 @@ public class MessageViewModel extends ViewModel {
             public void onClick(View v) {
                 String textMessage = inputTextView.getText().toString();
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                UserViewModel userViewModel = ViewModelProviders.of((FragmentActivity) context).get(UserViewModel.class);
+                User user = userViewModel.getUser((Activity) context);
+
                 Map<String, Object> chatMessage = new HashMap<>();
-                chatMessage.put("SenderName", user.getDisplayName());
+                chatMessage.put("SenderName", user.getName());
                 chatMessage.put("Text", textMessage);
                 chatMessage.put("TimeStamp", new com.google.firebase.Timestamp(new Date()));
+                chatMessage.put("StoreId", user.getStoreId());
+                chatMessage.put("SenderId", user.getId());
 
                 db.collection("messages")
                         .add(chatMessage)
@@ -85,6 +94,7 @@ public class MessageViewModel extends ViewModel {
             @Override
             public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {
                 if (queryDocumentSnapshots != null) {
+
                     ArrayList<Message> messages = new ArrayList<>();
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         messages.add(new Message(doc.getString("SenderName"), doc.getString("Text"), doc.getTimestamp("TimeStamp")));

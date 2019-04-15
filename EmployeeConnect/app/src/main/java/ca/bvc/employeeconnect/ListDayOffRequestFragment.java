@@ -1,51 +1,23 @@
 package ca.bvc.employeeconnect;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
-import android.widget.Toast;
-
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
-import ca.bvc.employeeconnect.adapter.ChatListAdapter;
-import ca.bvc.employeeconnect.adapter.EventListAdapter;
-import ca.bvc.employeeconnect.model.Event;
-import ca.bvc.employeeconnect.viewmodel.EventViewModel;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ScheduleFragment.OnFragmentInteractionListener} interface
+ * {@link ListDayOffRequestFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ScheduleFragment#newInstance} factory method to
+ * Use the {@link ListDayOffRequestFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
-public class ScheduleFragment extends Fragment {
+public class ListDayOffRequestFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -54,12 +26,12 @@ public class ScheduleFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private CalendarView myCalender;
 
     private OnFragmentInteractionListener mListener;
 
-    private EventViewModel eventViewModel;
-    private FloatingActionButton floatingActionButton;
+    public ListDayOffRequestFragment() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -67,19 +39,16 @@ public class ScheduleFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ScheduleFragment.
+     * @return A new instance of fragment ListDayOffRequestFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ScheduleFragment newInstance(String param1, String param2) {
-        ScheduleFragment fragment = new ScheduleFragment();
+    public static ListDayOffRequestFragment newInstance(String param1, String param2) {
+        ListDayOffRequestFragment fragment = new ListDayOffRequestFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-    public ScheduleFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -95,33 +64,7 @@ public class ScheduleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
-        final RecyclerView recyclerView = rootView.findViewById(R.id.event_recycler_view);
-        myCalender = (CalendarView)rootView.findViewById(R.id.calendarView);
-        myCalender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                EventViewModel eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
-                eventViewModel.initEventRecycler(getActivity(), recyclerView, MyDate.getDate(dayOfMonth, month, year));
-            }
-        });
-
-
-        floatingActionButton = rootView.findViewById(R.id.floating_button);
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), RequestDayOffActivity.class);
-                startActivity(intent);
-            }
-        });
-
-//        RecyclerView eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
-//        eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
-//        eventViewModel.initEventRecycler(getActivity(), eventRecyclerView, new Date());
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_list_day_off_request, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -162,5 +105,4 @@ public class ScheduleFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }

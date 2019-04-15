@@ -6,23 +6,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ca.bvc.employeeconnect.Home;
-import ca.bvc.employeeconnect.R;
+import ca.bvc.employeeconnect.LoginActivity;
 import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
-
-import static android.app.Activity.RESULT_OK;
 
 public class UserViewModel extends ViewModel {
     private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -51,6 +54,7 @@ public class UserViewModel extends ViewModel {
         Query authQuery = db.collection("users")
                 .whereEqualTo("Id", userId)
                 .whereEqualTo("Pin", pin);
+
         authQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -77,5 +81,87 @@ public class UserViewModel extends ViewModel {
                 }
             }
         });
+    }
+
+    private boolean verifyAdminUser(String userInput, String employeeCode, String adminCode) throws Exception {
+        if (userInput.equals(employeeCode)) {
+            return false;
+        } else if (userInput.equals(adminCode)) {
+            return true;
+        } else {
+            throw new Exception("Invalid User");
+        }
+    }
+
+    public void registerAccount(final Activity activity, final String employeeNumber, final String name, final String email, final String userId, final String pin, String confirmPin) {
+        final Query registerAccountQuery = db.collection("users");
+        Query employeeVerifyQuery = db.collection("stores");
+
+        try {
+            if (employeeNumber.equals("") || name.equals("") || email.equals("") || userId.equals("") || pin.equals("")) {
+                throw new Exception("Please fill all the field.");
+            }
+            if (pin.length() > 4 && !pin.equals(confirmPin)) {
+                throw new Exception("Pin doesn't match or invalid pin!");
+            }
+            employeeVerifyQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful() && task.getResult().size() >= 1) {
+                        for (DocumentSnapshot data : task.getResult()){
+                            try {
+                                final boolean admin = verifyAdminUser(employeeNumber, data.getString("EmployeeRegisterKey"), data.getString("AdminRegisterKey"));
+                                final String storeId = data.getId();
+
+                                registerAccountQuery.whereEqualTo("Id", userId)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful() && task.getResult().size() >= 1) {
+                                                    Toast.makeText(activity, "Please use different userId. User Already Registered", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Map<String, Object>  user = new HashMap<String, Object>();
+                                                    user.put("Admin", admin);
+                                                    user.put("Email", email);
+                                                    user.put("Id", userId);
+                                                    user.put("Pin", pin);
+                                                    user.put("Name", name);
+                                                    user.put("StoreId", storeId);
+                                                    ((CollectionReference) registerAccountQuery).add(user)
+                                                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                                    Toast.makeText(activity, "User Registered.", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(activity, "Please Try again.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                    Intent intent = new Intent(activity, LoginActivity.class);
+                                                    activity.startActivity(intent);
+                                                    activity.finish();
+                                                }
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(activity, "Please Try again.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                break;
+                            } catch (Exception e) {
+                                Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

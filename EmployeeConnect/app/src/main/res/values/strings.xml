@@ -59,5 +59,9 @@
     <string name="pin_hint">Pin</string>
     <string name="login_btn_text">Login</string>
     <string name="default_pic_content_description">default pic</string>
+    <string name="sign_up_user_name">Name</string>
+    <string name="sign_up_confirm_pin">Confirm Pin</string>
+    <string name="sign_up_employer_code">Employer Code</string>
+    <string name="sign_up_email">Email</string>
 
 </resources>

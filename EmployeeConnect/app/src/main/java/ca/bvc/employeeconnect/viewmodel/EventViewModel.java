@@ -1,14 +1,20 @@
 package ca.bvc.employeeconnect.viewmodel;
 
+import android.app.Activity;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,17 +28,27 @@ import javax.annotation.Nonnull;
 
 import ca.bvc.employeeconnect.adapter.EventListAdapter;
 import ca.bvc.employeeconnect.model.Event;
+import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
 
 public class EventViewModel extends ViewModel {
 
     private static  final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private FirebaseQueryLiveData liveData = new FirebaseQueryLiveData(db.collection("events"));
+    FirebaseQueryLiveData liveData;
 
-    public void initEventRecycler(final Context context, final RecyclerView eventRecyclerView,final Date date) {
+    public void initEventRecycler(final Context context, final RecyclerView eventRecyclerView,final Timestamp timestamp) {
         final List<Event> events = new ArrayList<>();
         final LinearLayoutManager eventLinearLayoutManager = new LinearLayoutManager(context);
+
+        UserViewModel userViewModel = ViewModelProviders.of((FragmentActivity) context).get(UserViewModel.class);
+        User user = userViewModel.getUser((Activity) context);
+
+        if (liveData != null) {
+            liveData.removeObservers((LifecycleOwner) context);
+        }
+
+        liveData = new FirebaseQueryLiveData(db.collection("events").whereEqualTo("Uid", user.getId()).whereEqualTo("TimeStamp", timestamp));
 
         liveData.observe((LifecycleOwner) context, new Observer<QuerySnapshot>() {
             @Override
