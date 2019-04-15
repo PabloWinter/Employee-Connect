@@ -1,36 +1,26 @@
 package ca.bvc.employeeconnect;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.Timestamp;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
-import ca.bvc.employeeconnect.adapter.ChatListAdapter;
-import ca.bvc.employeeconnect.adapter.EventListAdapter;
-import ca.bvc.employeeconnect.model.Event;
+import ca.bvc.employeeconnect.helper.MyDate;
+import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.viewmodel.EventViewModel;
+import ca.bvc.employeeconnect.viewmodel.UserViewModel;
 
 
 /**
@@ -57,6 +47,9 @@ public class ScheduleFragment extends Fragment {
 
     private EventViewModel eventViewModel;
     private FloatingActionButton floatingActionButton;
+    private Date selectedDate = MyDate.getCurrentTimeStamp().toDate();
+
+    public static String EXTRA_SELECTED_DATE = "SELECTED_DATE";
 
     /**
      * Use this factory method to create a new instance of
@@ -93,45 +86,16 @@ public class ScheduleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
+        final RecyclerView recyclerView = rootView.findViewById(R.id.event_recycler_view);
         myCalender = (CalendarView)rootView.findViewById(R.id.calendarView);
         myCalender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String date = year + "/" + month + "/" + dayOfMonth;
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, month, dayOfMonth);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                Intent intent = new Intent(".UserScheduleForm");
-                switch (dayOfWeek){
-                    case (1):
-                        intent.putExtra("WEEK_DAY", "Sunday");
-                        break;
-                    case (2):
-                        intent.putExtra("WEEK_DAY", "Monday");
-                        break;
-                    case (3):
-                        intent.putExtra("WEEK_DAY", "Tuesday");
-                        break;
-                    case (4):
-                        intent.putExtra("WEEK_DAY", "Wednesday");
-                        break;
-                    case (5):
-                        intent.putExtra("WEEK_DAY", "Thursday");
-                        break;
-                    case (6):
-                        intent.putExtra("WEEK_DAY", "Friday");
-                        break;
-                    case (7):
-                        intent.putExtra("WEEK_DAY", "Saturday");
-                        break;
-                    default:
-                        break;
-                }
-                intent.putExtra("DATE", date);
-                startActivity(intent);
-
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                EventViewModel eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
+                Timestamp selectedTimestamp = MyDate.getDate(dayOfMonth, month, year);
+                selectedDate = selectedTimestamp.toDate();
+                eventViewModel.initEventRecycler(getActivity(), recyclerView, selectedTimestamp);
             }
-
         });
 
 
@@ -140,15 +104,25 @@ public class ScheduleFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), RequestDayOffActivity.class);
-                startActivity(intent);
+
+                UserViewModel userViewModel = ViewModelProviders.of(getActivity()).get(UserViewModel.class);
+                User user = userViewModel.getUser((getActivity()));
+
+                if (user.isAdmin()) {
+                    Intent intent = new Intent(getContext(), UserScheduleForm.class);
+                    intent.putExtra(EXTRA_SELECTED_DATE, selectedDate.getTime());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), RequestDayOffActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
-        RecyclerView eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
-        eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
-        eventViewModel.initEventRecycler(getActivity(), eventRecyclerView, new Date());
-        //initEventsRecyclerView();
+//        RecyclerView eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
+//        eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
+//        eventViewModel.initEventRecycler(getActivity(), eventRecyclerView, new Date());
+
         return rootView;
     }
 
