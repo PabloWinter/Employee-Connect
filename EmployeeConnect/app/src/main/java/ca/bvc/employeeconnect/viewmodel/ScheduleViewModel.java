@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import ca.bvc.employeeconnect.helper.MyDate;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
 
 public class ScheduleViewModel extends ViewModel {
@@ -41,13 +42,19 @@ public class ScheduleViewModel extends ViewModel {
     //if success then return true,
     //if not then return false.
     public void addSchedule(final Context context, String userId, String storeId, String startTime, String endTime, String note, String title, Date selectedDate){
+
+
+        if (userId.equals("") || storeId.equals("") || startTime.equals("") || endTime.equals("") || title.equals("")) {
+            Toast.makeText(context, "Please fill all the field first.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Map<String, Object> userSchedule = new HashMap<>();
         userSchedule.put("EndTime", endTime);
         userSchedule.put("Name", title);
         userSchedule.put("Note", note);
         userSchedule.put("StartTime", startTime);
         userSchedule.put("StoreId", storeId);
-        userSchedule.put("TimeStamp", new com.google.firebase.Timestamp(selectedDate));
+        userSchedule.put("TimeStamp", MyDate.getTimeStamp(selectedDate));
         userSchedule.put("Uid", userId);
 
         Log.d("schedule", userSchedule.toString());

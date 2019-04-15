@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -102,7 +103,8 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
         scheduleListHolder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!scheduleListHolder.startTime.getText().equals("") && !scheduleListHolder.endTime.getText().equals("")){
+                if(!scheduleListHolder.startTime.getText().equals("click to Assign Start Time") && !scheduleListHolder.endTime.getText().equals("Click to Assign End Time")){
+
                     scheduleViewModel.addSchedule(mContext, mUsers.get(i).getId() , mUsers.get(i).getStoreId(), scheduleListHolder.startTime.getText().toString()
                             ,scheduleListHolder.endTime.getText().toString(),scheduleListHolder.note.getText().toString(),scheduleListHolder.title.getText().toString(),selectedDate);
                 }

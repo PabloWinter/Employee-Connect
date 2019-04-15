@@ -63,5 +63,11 @@
     <string name="sign_up_confirm_pin">Confirm Pin</string>
     <string name="sign_up_employer_code">Employer Code</string>
     <string name="sign_up_email">Email</string>
+    <string name="UserName">UserName</string>
+    <string name="job_title_ex_morning_shift">Job Title. Ex. Morning Shift</string>
+    <string name="click_to_assign_start_time">click to Assign Start Time</string>
+    <string name="click_to_assign_end_time">Click to Assign End Time</string>
+    <string name="write_note">Write note....</string>
+    <string name="add">Add</string>
 
 </resources>

@@ -1,12 +1,19 @@
 package ca.bvc.employeeconnect;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
+import ca.bvc.employeeconnect.viewmodel.RequestViewModel;
 
 
 /**
@@ -64,7 +71,17 @@ public class ListDayOffRequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_day_off_request, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_day_off_request, container, false);
+        getActivity().setTitle("Request of Days Off");
+        initRecyclerView(view);
+        return view;
+    }
+
+    private void initRecyclerView(View view) {
+        RecyclerView requestRecycler = view.findViewById(R.id.request_recycler_view);
+        Context context = getActivity();
+        RequestViewModel requestViewModel = new RequestViewModel();
+        requestViewModel.initVRecycler(context, requestRecycler);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
