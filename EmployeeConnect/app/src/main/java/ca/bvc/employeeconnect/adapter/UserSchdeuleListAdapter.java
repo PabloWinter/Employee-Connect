@@ -102,17 +102,9 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
         scheduleListHolder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(scheduleListHolder.startTime.getText() != "" && scheduleListHolder.endTime.getText() != ""){
-                    boolean status = scheduleViewModel.addSchedule(mUsers.get(i).getId(),mUsers.get(i).getStoreId(),scheduleListHolder.startTime.getText().toString()
+                if(!scheduleListHolder.startTime.getText().equals("") && !scheduleListHolder.endTime.getText().equals("")){
+                    scheduleViewModel.addSchedule(mContext, mUsers.get(i).getId() , mUsers.get(i).getStoreId(), scheduleListHolder.startTime.getText().toString()
                             ,scheduleListHolder.endTime.getText().toString(),scheduleListHolder.note.getText().toString(),scheduleListHolder.title.getText().toString(),selectedDate);
-                    if(status){
-                        Log.d("status", String.valueOf(status));
-                        Toast.makeText(mContext, "Schedule has been added", Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        Log.d("status", String.valueOf(status));
-                        Toast.makeText(mContext, "something wrong", Toast.LENGTH_LONG).show();
-                    }
                 }
                 else{
                     Toast.makeText(mContext, "Please fill the fields", Toast.LENGTH_LONG).show();
