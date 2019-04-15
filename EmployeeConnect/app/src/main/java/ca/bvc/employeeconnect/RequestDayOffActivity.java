@@ -3,6 +3,7 @@ package ca.bvc.employeeconnect;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.google.type.Date;
 
 import java.util.Calendar;
 
+import ca.bvc.employeeconnect.model.RequestDayOff;
 import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
 import ca.bvc.employeeconnect.viewmodel.RequestViewModel;
@@ -32,6 +34,7 @@ public class RequestDayOffActivity extends AppCompatActivity {
     private EditText employeeReason;
     private Button submitEmployee;
     private Button cancelForm;
+    private Button acceptRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,6 @@ public class RequestDayOffActivity extends AppCompatActivity {
         employeeCode = findViewById(R.id.employee_code);
         employeeReason = findViewById(R.id.employee_reason);
         submitEmployee = findViewById(R.id.submit_employee_form);
-        cancelForm = findViewById(R.id.cancel_button);
 
         buttonGetDate.setOnClickListener(new View.OnClickListener() {
             @Override

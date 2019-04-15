@@ -49,7 +49,7 @@
                 android:textColorHint="@color/common_google_signin_btn_text_dark_default"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:importantForAutofill="no" tools:targetApi="o"/>
+                android:importantForAutofill="no" tools:targetApi="o" />
 
             <TextView
                 android:id="@+id/start_time_id"
@@ -87,7 +87,7 @@
                 android:textColorHint="@color/common_google_signin_btn_text_dark_default"
                 android:gravity="top|center"
                 android:layout_marginTop="5dp"
-                android:autofillHints="" tools:targetApi="o"/>
+                android:autofillHints="" tools:targetApi="o" />
 
             <Button
                 android:id="@+id/add_button_id"
