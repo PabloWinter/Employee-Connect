@@ -1,8 +1,13 @@
 package ca.bvc.employeeconnect.viewmodel;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -11,21 +16,31 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import ca.bvc.employeeconnect.adapter.ChatListAdapter;
+import ca.bvc.employeeconnect.adapter.RequestListAdapter;
+import ca.bvc.employeeconnect.model.Message;
+import ca.bvc.employeeconnect.model.RequestDayOff;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
 
 public class RequestViewModel {
 
     private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseQueryLiveData liveData = new FirebaseQueryLiveData(db.collection("dayOff"));
+    ArrayList<RequestDayOff> list;
 
     @Nonnull
     public LiveData<QuerySnapshot> getRequestsDayOff() {
@@ -56,4 +71,21 @@ public class RequestViewModel {
                 });
     }
 
+    public void initVRecycler(final Context context, final RecyclerView requestRecyclerView) {
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+
+        liveData.observe((LifecycleOwner) context, new Observer<QuerySnapshot>() {
+            @Override
+            public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots != null) {
+                    List<RequestDayOff> list = new ArrayList<>();
+                    for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                        list.add(new RequestDayOff(doc.getString("user"), "1234567890", doc.getString("reason"), doc.getString("date")));
+                    }
+                    requestRecyclerView.setAdapter(new RequestListAdapter(context, list));
+                    requestRecyclerView.setLayoutManager(layoutManager);
+                }
+            }
+        });
+    }
 }
