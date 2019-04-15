@@ -29,7 +29,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="180dp"
             android:layout_marginTop="120dp"
-            android:text="click to choose your time"
+            android:hint="click to choose your time"
             tools:layout_editor_absoluteX="197dp"
             tools:layout_editor_absoluteY="136dp" />
 

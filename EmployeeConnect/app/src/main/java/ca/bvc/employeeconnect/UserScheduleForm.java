@@ -27,9 +27,13 @@ import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 
 import ca.bvc.employeeconnect.adapter.ChatListAdapter;
 import ca.bvc.employeeconnect.adapter.UserSchdeuleListAdapter;
@@ -59,9 +63,22 @@ public class UserScheduleForm extends AppCompatActivity {
         date.setPaintFlags(date.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         date.setText(intent.getStringExtra("DATE"));
 
+        //converting date to timestamp
+        String str_date = intent.getStringExtra("DATE");
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        Date convertedDate = null;
+        try {
+            convertedDate = (Date)formatter.parse(str_date);
+            Log.d("timestamp", new com.google.firebase.Timestamp(convertedDate).toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
         scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
         LiveData<QuerySnapshot> userLiveData = scheduleViewModel.getUserList();
 
+        final Date finalConvertedDate = convertedDate;
         userLiveData.observe(this, new Observer<QuerySnapshot>() {
             @Override
             public void onChanged(@Nullable QuerySnapshot querySnapshot) {
@@ -71,7 +88,7 @@ public class UserScheduleForm extends AppCompatActivity {
                         users.add(new User(doc.getString("Name"), doc.getId(), doc.getString("StoreId")));
                     }
 
-                    adapter = new UserSchdeuleListAdapter(UserScheduleForm.this,users);
+                    adapter = new UserSchdeuleListAdapter(UserScheduleForm.this,users, finalConvertedDate);
                     recyclerView.setAdapter(adapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 }

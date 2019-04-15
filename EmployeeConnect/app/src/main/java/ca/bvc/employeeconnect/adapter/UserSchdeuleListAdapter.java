@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import ca.bvc.employeeconnect.R;
@@ -32,10 +33,12 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
     private List<User> mUsers;
     TimePickerDialog timePickerDialog;
     ScheduleViewModel scheduleViewModel;
-    public UserSchdeuleListAdapter(Context context, List<User> users){
+    Date selectedDate;
+    public UserSchdeuleListAdapter(Context context, List<User> users, Date finalConvertedDate){
         this.mContext = context;
         this.mUsers = users;
         scheduleViewModel = new ScheduleViewModel();
+        this.selectedDate = finalConvertedDate;
     }
 
     @NonNull
@@ -108,15 +111,20 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
         scheduleListHolder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean status = scheduleViewModel.addSchedule(mUsers.get(i).getId(),mUsers.get(i).getStoreId(),scheduleListHolder.startTime.getText().toString()
-                ,scheduleListHolder.endTime.getText().toString(),scheduleListHolder.note.getText().toString(),scheduleListHolder.title.getText().toString());
-                if(status){
-                    Log.d("status", String.valueOf(status));
-                    Toast.makeText(mContext, "Schedule has been added", Toast.LENGTH_LONG).show();
+                if(scheduleListHolder.startTime.getText() != "" && scheduleListHolder.endTime.getText() != ""){
+                    boolean status = scheduleViewModel.addSchedule(mUsers.get(i).getId(),mUsers.get(i).getStoreId(),scheduleListHolder.startTime.getText().toString()
+                            ,scheduleListHolder.endTime.getText().toString(),scheduleListHolder.note.getText().toString(),scheduleListHolder.title.getText().toString(),selectedDate);
+                    if(status){
+                        Log.d("status", String.valueOf(status));
+                        Toast.makeText(mContext, "Schedule has been added", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Log.d("status", String.valueOf(status));
+                        Toast.makeText(mContext, "something wrong", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else{
-                    Log.d("status", String.valueOf(status));
-                    Toast.makeText(mContext, "something wrong", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Please fill the fields", Toast.LENGTH_LONG).show();
                 }
             }
         });
