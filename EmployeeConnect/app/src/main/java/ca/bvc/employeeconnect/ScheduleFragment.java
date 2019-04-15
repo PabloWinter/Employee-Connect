@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
 
@@ -47,7 +48,7 @@ public class ScheduleFragment extends Fragment {
 
     private EventViewModel eventViewModel;
     private FloatingActionButton floatingActionButton;
-    private Date selectedDate = MyDate.getCurrentTimeStamp().toDate();
+    private Date selectedDate = new Date();
 
     public static String EXTRA_SELECTED_DATE = "SELECTED_DATE";
 
@@ -86,18 +87,21 @@ public class ScheduleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
+        final EventViewModel eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
         final RecyclerView recyclerView = rootView.findViewById(R.id.event_recycler_view);
         myCalender = (CalendarView)rootView.findViewById(R.id.calendarView);
         myCalender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                EventViewModel eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
                 Timestamp selectedTimestamp = MyDate.getDate(dayOfMonth, month, year);
                 selectedDate = selectedTimestamp.toDate();
                 eventViewModel.initEventRecycler(getActivity(), recyclerView, selectedTimestamp);
             }
         });
 
+
+
+        eventViewModel.initEventRecycler(getActivity(), recyclerView, MyDate.getCurrentTimeStamp());
 
         floatingActionButton = rootView.findViewById(R.id.floating_button);
 
@@ -119,9 +123,6 @@ public class ScheduleFragment extends Fragment {
             }
         });
 
-//        RecyclerView eventRecyclerView = rootView.findViewById(R.id.event_recycler_view);
-//        eventViewModel = ViewModelProviders.of(getActivity()).get(EventViewModel.class);
-//        eventViewModel.initEventRecycler(getActivity(), eventRecyclerView, new Date());
 
         return rootView;
     }

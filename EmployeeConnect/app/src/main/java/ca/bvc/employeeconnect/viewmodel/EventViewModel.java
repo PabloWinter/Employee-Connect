@@ -27,6 +27,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import ca.bvc.employeeconnect.adapter.EventListAdapter;
+import ca.bvc.employeeconnect.helper.MyDate;
 import ca.bvc.employeeconnect.model.Event;
 import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
@@ -38,13 +39,13 @@ public class EventViewModel extends ViewModel {
     FirebaseQueryLiveData liveData;
 
     public void initEventRecycler(final Context context, final RecyclerView eventRecyclerView,final Timestamp timestamp) {
-        final List<Event> events = new ArrayList<>();
         final LinearLayoutManager eventLinearLayoutManager = new LinearLayoutManager(context);
 
         UserViewModel userViewModel = ViewModelProviders.of((FragmentActivity) context).get(UserViewModel.class);
         User user = userViewModel.getUser((Activity) context);
 
-        if (liveData != null) {
+        //remove previous listener
+        if (this.liveData != null) {
             liveData.removeObservers((LifecycleOwner) context);
         }
 
@@ -54,9 +55,11 @@ public class EventViewModel extends ViewModel {
             @Override
             public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {
                 if (queryDocumentSnapshots != null) {
+                    List<Event> events = new ArrayList<>();
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
                         events.add(new Event(doc.getString("Name"), doc.getString("Note"), doc.getString("StartTime"), doc.getString("EndTime")));
                     }
+
                     eventRecyclerView.setAdapter(new EventListAdapter(context, events));
                     if (eventRecyclerView.getLayoutManager() == null) {
                         eventRecyclerView.setLayoutManager(eventLinearLayoutManager);
