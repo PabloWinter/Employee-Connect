@@ -40,14 +40,14 @@ public class ScheduleViewModel extends ViewModel {
     //add schedule to the firebase,
     //if success then return true,
     //if not then return false.
-    public boolean addSchedule(String userId, String storeId, String startTime, String endTime, String note, String title){
+    public boolean addSchedule(String userId, String storeId, String startTime, String endTime, String note, String title, Date selectedDate){
         Map<String, Object> userSchedule = new HashMap<>();
         userSchedule.put("EndTime", endTime);
         userSchedule.put("Name", title);
         userSchedule.put("Note", note);
         userSchedule.put("StartTime", startTime);
         userSchedule.put("StoreId", storeId);
-        userSchedule.put("TimeStamp", new com.google.firebase.Timestamp(new Date()));
+        userSchedule.put("TimeStamp", new com.google.firebase.Timestamp(selectedDate));
         userSchedule.put("Uid", userId);
 
         Log.d("schedule", userSchedule.toString());
