@@ -15,11 +15,11 @@ import ca.bvc.employeeconnect.model.RequestDayOff;
 
 public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.RequestListHolder>{
 
-    private Context context;
+    private Context mcontext;
     private List<RequestDayOff> listDaysOff;
 
     public RequestListAdapter(Context context, List<RequestDayOff> daysOff) {
-        this.context = context;
+        this.mcontext = context;
         this.listDaysOff = daysOff;
     }
 
@@ -33,7 +33,6 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RequestListHolder dayListHolder, final int position) {
-
         dayListHolder.nameUser.setText(listDaysOff.get(position).nameUser);
         dayListHolder.employeeCode.setText(listDaysOff.get(position).employeeCode);
         dayListHolder.reasonToDayOff.setText(listDaysOff.get(position).reasonDayOff);
@@ -59,5 +58,4 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             dateDayOff = itemView.findViewById(R.id.request_employee_date);
         }
     }
-
 }
