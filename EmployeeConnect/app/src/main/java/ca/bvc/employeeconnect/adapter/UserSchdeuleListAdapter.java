@@ -29,11 +29,11 @@ import ca.bvc.employeeconnect.viewmodel.ScheduleViewModel;
 public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleListAdapter.ScheduleListHolder> {
 
     Context mContext;
-    Activity mActivity;
     private List<User> mUsers;
     TimePickerDialog timePickerDialog;
     ScheduleViewModel scheduleViewModel;
     Date selectedDate;
+
     public UserSchdeuleListAdapter(Context context, List<User> users, Date finalConvertedDate){
         this.mContext = context;
         this.mUsers = users;
@@ -58,21 +58,15 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
         scheduleListHolder.startTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int currentHours = calendar.get(Calendar.HOUR_OF_DAY);
-                int currentMin = calendar.get(Calendar.MINUTE);
                 timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                    private TimePicker view;
-                    private int hourOfDay;
-                    private int minute;
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         if(hourOfDay <= 12){
-                            scheduleListHolder.startTime.setText(hourOfDay + ":" + minute + " am");
+                            scheduleListHolder.startTime.setText("Start Time : " + hourOfDay + ":" + minute + " am");
                         }
                         else{
-                            scheduleListHolder.startTime.setText(hourOfDay + ":" + minute + " pm");
+                            scheduleListHolder.startTime.setText("Start Time : " + hourOfDay + ":" + minute + " pm");
                         }
 
                     }
@@ -89,17 +83,14 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
                 int currentHours = calendar.get(Calendar.HOUR_OF_DAY);
                 int currentMin = calendar.get(Calendar.MINUTE);
                 timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                    private TimePicker view;
-                    private int hourOfDay;
-                    private int minute;
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         if(hourOfDay <= 12){
-                            scheduleListHolder.endTime.setText(hourOfDay + ":" + minute + " am");
+                            scheduleListHolder.endTime.setText("End Time : " + hourOfDay + ":" + minute + " am");
                         }
                         else{
-                            scheduleListHolder.endTime.setText(hourOfDay + ":" + minute + " pm");
+                            scheduleListHolder.endTime.setText("End Time : " + hourOfDay + ":" + minute + " pm");
                         }
                     }
                 }, currentHours, currentMin, false);
@@ -111,17 +102,9 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
         scheduleListHolder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(scheduleListHolder.startTime.getText() != "" && scheduleListHolder.endTime.getText() != ""){
-                    boolean status = scheduleViewModel.addSchedule(mUsers.get(i).getId(),mUsers.get(i).getStoreId(),scheduleListHolder.startTime.getText().toString()
+                if(!scheduleListHolder.startTime.getText().equals("") && !scheduleListHolder.endTime.getText().equals("")){
+                    scheduleViewModel.addSchedule(mContext, mUsers.get(i).getId() , mUsers.get(i).getStoreId(), scheduleListHolder.startTime.getText().toString()
                             ,scheduleListHolder.endTime.getText().toString(),scheduleListHolder.note.getText().toString(),scheduleListHolder.title.getText().toString(),selectedDate);
-                    if(status){
-                        Log.d("status", String.valueOf(status));
-                        Toast.makeText(mContext, "Schedule has been added", Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        Log.d("status", String.valueOf(status));
-                        Toast.makeText(mContext, "something wrong", Toast.LENGTH_LONG).show();
-                    }
                 }
                 else{
                     Toast.makeText(mContext, "Please fill the fields", Toast.LENGTH_LONG).show();

@@ -2,6 +2,7 @@ package ca.bvc.employeeconnect.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -27,7 +28,6 @@ import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
 public class ScheduleViewModel extends ViewModel {
 
     private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    boolean status;
 
     private FirebaseQueryLiveData liveData = new FirebaseQueryLiveData(db.collection("users"));
 
@@ -40,7 +40,7 @@ public class ScheduleViewModel extends ViewModel {
     //add schedule to the firebase,
     //if success then return true,
     //if not then return false.
-    public boolean addSchedule(String userId, String storeId, String startTime, String endTime, String note, String title, Date selectedDate){
+    public void addSchedule(final Context context, String userId, String storeId, String startTime, String endTime, String note, String title, Date selectedDate){
         Map<String, Object> userSchedule = new HashMap<>();
         userSchedule.put("EndTime", endTime);
         userSchedule.put("Name", title);
@@ -56,15 +56,14 @@ public class ScheduleViewModel extends ViewModel {
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        status = true;
+                        Toast.makeText(context, "Schedule has been updated.", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        status = false;
+                        Toast.makeText(context, "Something went wrong. Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 });
-        return status;
     }
 }
