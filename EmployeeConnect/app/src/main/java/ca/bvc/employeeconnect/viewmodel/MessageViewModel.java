@@ -51,6 +51,12 @@ public class MessageViewModel extends ViewModel {
 
     private FirebaseQueryLiveData liveData = new FirebaseQueryLiveData(db.collection("messages"));
 
+    /**
+     * initialize chat send message listener
+     * @param context
+     * @param inputTextView
+     * @param sendMessageBtn
+     */
     public void initChatSendMessageListener(final Context context, final TextView inputTextView, final ImageButton sendMessageBtn) {
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,9 +93,15 @@ public class MessageViewModel extends ViewModel {
         });
     }
 
+    /**
+     * initialize recycler view with chat messages live data
+     * @param context
+     * @param chatRecyclerView
+     */
     public void initChatRecyclerView(final Context context, final RecyclerView chatRecyclerView) {
         final LinearLayoutManager chatLinearLayoutManager = new LinearLayoutManager(context);
 
+        //update message on view on change in data
         liveData.observe((LifecycleOwner) context, new Observer<QuerySnapshot>() {
             @Override
             public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {

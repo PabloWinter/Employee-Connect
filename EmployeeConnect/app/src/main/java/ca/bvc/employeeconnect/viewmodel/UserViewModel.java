@@ -34,6 +34,11 @@ public class UserViewModel extends ViewModel {
 
     private FirebaseQueryLiveData liveData = new FirebaseQueryLiveData(db.collection("users"));
 
+    /**
+     * method to get current logged in user info
+     * @param activity
+     * @return
+     */
     public static User getUser(Activity activity) {
         try {
             SharedPreferences sharedPref = activity.getSharedPreferences(USER_PREF_FILE, Context.MODE_PRIVATE);
@@ -45,11 +50,21 @@ public class UserViewModel extends ViewModel {
         }
     }
 
+    /**
+     * method to logout user and delete info from saved pref
+     * @param activity
+     */
     public static void logOutUser(Activity activity) {
         SharedPreferences sharedPref = activity.getSharedPreferences(USER_PREF_FILE, Context.MODE_PRIVATE);
         sharedPref.edit().clear().commit();
     }
 
+    /**
+     * Method to authenticate user, save info to pref and launch home activity
+     * @param userId
+     * @param pin
+     * @param activity
+     */
     public void authenticateUser(final String userId, final String pin, final Activity activity) {
         Query authQuery = db.collection("users")
                 .whereEqualTo("Id", userId)
@@ -83,6 +98,14 @@ public class UserViewModel extends ViewModel {
         });
     }
 
+    /**
+     * function to check if user is admin or not
+     * @param userInput
+     * @param employeeCode
+     * @param adminCode
+     * @return
+     * @throws Exception
+     */
     private boolean verifyAdminUser(String userInput, String employeeCode, String adminCode) throws Exception {
         if (userInput.equals(employeeCode)) {
             return false;
@@ -93,6 +116,16 @@ public class UserViewModel extends ViewModel {
         }
     }
 
+    /**
+     * function to register account and update database
+     * @param activity
+     * @param employeeNumber
+     * @param name
+     * @param email
+     * @param userId
+     * @param pin
+     * @param confirmPin
+     */
     public void registerAccount(final Activity activity, final String employeeNumber, final String name, final String email, final String userId, final String pin, String confirmPin) {
         final Query registerAccountQuery = db.collection("users");
         Query employeeVerifyQuery = db.collection("stores");
@@ -113,14 +146,18 @@ public class UserViewModel extends ViewModel {
                                 final boolean admin = verifyAdminUser(employeeNumber, data.getString("EmployeeRegisterKey"), data.getString("AdminRegisterKey"));
                                 final String storeId = data.getId();
 
+                                //query to check if id is unique or not
                                 registerAccountQuery.whereEqualTo("Id", userId)
                                         .get()
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful() && task.getResult().size() >= 1) {
+                                                    //error occurred
                                                     Toast.makeText(activity, "Please use different userId. User Already Registered", Toast.LENGTH_SHORT).show();
                                                 } else {
+
+                                                    //query to register account
                                                     Map<String, Object>  user = new HashMap<String, Object>();
                                                     user.put("Admin", admin);
                                                     user.put("Email", email);
@@ -140,6 +177,8 @@ public class UserViewModel extends ViewModel {
                                                             Toast.makeText(activity, "Please Try again.", Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
+
+                                                    //launch login activity on success
                                                     Intent intent = new Intent(activity, LoginActivity.class);
                                                     activity.startActivity(intent);
                                                     activity.finish();

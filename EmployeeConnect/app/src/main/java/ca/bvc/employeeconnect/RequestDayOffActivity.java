@@ -46,6 +46,7 @@ public class RequestDayOffActivity extends AppCompatActivity {
         employeeReason = findViewById(R.id.employee_reason);
         submitEmployee = findViewById(R.id.submit_employee_form);
 
+        //Get Date btn on click listener
         buttonGetDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +70,7 @@ public class RequestDayOffActivity extends AppCompatActivity {
             }
         };
 
+        //Submit day off request btn on click listener
         submitEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

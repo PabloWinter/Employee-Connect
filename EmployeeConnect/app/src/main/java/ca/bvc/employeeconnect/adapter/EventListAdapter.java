@@ -19,6 +19,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     private Context context;
     private List<Event> listEvents;
 
+    /**
+     * Constructor for Event List Adapter
+     * @param context
+     * @param events
+     */
     public EventListAdapter(Context context, List<Event> events) {
         this.context = context;
         this.listEvents = events;
@@ -52,6 +57,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         TextView eventStart;
         TextView eventEnd;
 
+        /**
+         * Constructor for Event List Adapter
+         * @param itemView
+         */
         public EventListHolder(@NonNull View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.event_name);

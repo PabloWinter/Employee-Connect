@@ -13,6 +13,13 @@ import java.util.Date;
 
 public class MyDate {
 
+    /**
+     * function to get TimeStamp from given date and remove time
+     * @param date
+     * @param month
+     * @param year
+     * @return
+     */
     public static Timestamp getDate(int date, int month, int year) {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, date, 0, 0, 0);
@@ -20,6 +27,10 @@ public class MyDate {
         return  new Timestamp(cal.getTime());
     }
 
+    /**
+     * function to get current TimeStamp with date only, remove time
+     * @return
+     */
     public static Timestamp getCurrentTimeStamp() {
         Calendar cal = Calendar.getInstance();
 
@@ -27,6 +38,11 @@ public class MyDate {
     }
 
 
+    /**
+     * function to get Time stamp from give DATE object, remove time
+     * @param date
+     * @return
+     */
     public static Timestamp getTimeStamp(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

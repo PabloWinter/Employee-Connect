@@ -35,6 +35,12 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
     ScheduleViewModel scheduleViewModel;
     Date selectedDate;
 
+    /**
+     * Constructor for Schedule List Adapter
+     * @param context
+     * @param users
+     * @param finalConvertedDate
+     */
     public UserSchdeuleListAdapter(Context context, List<User> users, Date finalConvertedDate){
         this.mContext = context;
         this.mUsers = users;
@@ -129,6 +135,10 @@ public class UserSchdeuleListAdapter extends RecyclerView.Adapter<UserSchdeuleLi
         EditText title;
         Button addBtn;
 
+        /**
+         * Constructor for Schedule List Holder
+         * @param itemView
+         */
         public ScheduleListHolder(@NonNull View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.username_id);

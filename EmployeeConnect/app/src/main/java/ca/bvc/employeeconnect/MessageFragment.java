@@ -43,7 +43,6 @@ public class MessageFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -57,7 +56,6 @@ public class MessageFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment MessageFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static MessageFragment newInstance(String param1, String param2) {
         MessageFragment fragment = new MessageFragment();
         Bundle args = new Bundle();
@@ -66,6 +64,7 @@ public class MessageFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public MessageFragment() {
         // Required empty public constructor
     }
@@ -88,6 +87,10 @@ public class MessageFragment extends Fragment {
         return view;
     }
 
+    /**
+     * attach view model to initialize Message Recycler
+     * @param view
+     */
     private void attachViewModel(View view) {
         RecyclerView chatRecyclerView = view.findViewById(R.id.communication_recycler_container);
         Context context = getActivity();

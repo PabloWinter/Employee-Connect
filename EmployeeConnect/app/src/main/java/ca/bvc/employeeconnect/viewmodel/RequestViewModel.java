@@ -47,6 +47,14 @@ public class RequestViewModel {
         return liveData;
     }
 
+    /**
+     * method to submit day off request to database
+     * @param context
+     * @param user
+     * @param employeeCode
+     * @param date
+     * @param reason
+     */
     public void sendRequestDayOff(final Context context, String user, String employeeCode, String date, String reason){
 
         Map<String, Object> employeeRequest = new HashMap<>();
@@ -71,6 +79,11 @@ public class RequestViewModel {
                 });
     }
 
+    /**
+     * initialize recycler view for employee day off requests list
+     * @param context
+     * @param requestRecyclerView
+     */
     public void initVRecycler(final Context context, final RecyclerView requestRecyclerView) {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 

@@ -17,24 +17,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.Arrays;
-import java.util.List;
 
 import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.viewmodel.UserViewModel;
@@ -49,10 +38,11 @@ public class Home extends AppCompatActivity
     //fragment object
     Fragment fragment;
 
+    //hold activity ref
     private Context mContext;
 
+    //constants
     private static final int RC_EMPLOYEE_SIGN_IN = 1;
-
     private String TAG_SCHEDULE_FRAGMENT = "ca.bvc.employeeconnect.schedule.fragment";
     private String TAG_MESSAGE_FRAGMENT = "ca.bvc.employeeconnect.message.fragment";
     private String TAG_REQUEST_LIST_FRAGMENT = "ca.bvc.employeeconnect.request.fragment";
@@ -71,10 +61,14 @@ public class Home extends AppCompatActivity
         //initialize navigation view
         initNavigation();
 
+        //show user info in navigation
         UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         showUserInfo(userViewModel.getUser(this));
     }
 
+    /**
+     * Initialize Navigation for the activity
+     */
     private void initNavigation() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -84,6 +78,9 @@ public class Home extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, TAG_SCHEDULE_FRAGMENT).commit();
     }
 
+    /**
+     * Show Drawer on the activity
+     */
     private void setUpDrawer() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,6 +91,10 @@ public class Home extends AppCompatActivity
     }
 
 
+    /**
+     * Show current logged in user in navigation panel
+     * @param user
+     */
     private void showUserInfo(User user) {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView =  navigationView.getHeaderView(0);
@@ -108,17 +109,6 @@ public class Home extends AppCompatActivity
                     .load(user.getPhotoUrl())
                     .error(R.drawable.ic_menu_home)
                     .into(navUserImage);
-        }
-    }
-
-    private void initAuth() {
-        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        if (userViewModel.getUser(this) == null) {
-            //start Login Activity
-            Intent loginIntent = new Intent(mContext, LoginActivity.class);
-            startActivityForResult(loginIntent, RC_EMPLOYEE_SIGN_IN);
-        } else {
-            showUserInfo(userViewModel.getUser(this));
         }
     }
 
@@ -165,6 +155,7 @@ public class Home extends AppCompatActivity
         int selectedOption = item.getItemId();
         String tag;
         FragmentManager fragmentManager = getSupportFragmentManager();
+        //open message fragment
         if (selectedOption == R.id.navigation_message) {
             tag = TAG_MESSAGE_FRAGMENT;
             fragment = fragmentManager.findFragmentByTag(tag);
@@ -172,16 +163,22 @@ public class Home extends AppCompatActivity
                 fragment = new MessageFragment();
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, tag).addToBackStack(TAG_SCHEDULE_FRAGMENT).commit();
-        } else if (selectedOption == R.id.navigation_list_request_off){
+        }
+        //open request day off fragment
+        else if (selectedOption == R.id.navigation_list_request_off){
             tag = TAG_REQUEST_LIST_FRAGMENT;
             fragment = fragmentManager.findFragmentByTag(tag);
             if (fragment == null){
                 fragment = new ListDayOffRequestFragment();
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment, tag).addToBackStack(TAG_SCHEDULE_FRAGMENT).commit();
-        } else if (selectedOption == R.id.navigation_logout) {
+        }
+        //on click logout user
+        else if (selectedOption == R.id.navigation_logout) {
             logOutUser();
-        } else {
+        }
+        //open schedule fragment by default
+        else {
             tag = TAG_SCHEDULE_FRAGMENT;
             fragment = fragmentManager.findFragmentByTag(tag);
             if (fragment == null) {
@@ -195,6 +192,9 @@ public class Home extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Logout user and delete info from saved pref
+     */
     private void logOutUser() {
         UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         userViewModel.logOutUser(this);

@@ -24,10 +24,17 @@ public class FirebaseQueryLiveData extends LiveData<QuerySnapshot> {
     private boolean listenerRemovePending = false;
     private final Handler handler = new Handler();
 
+    /**
+     * Constructor
+     * @param query
+     */
     public FirebaseQueryLiveData(Query query) {
         mQuery = query;
     }
 
+    /**
+     * Remove any registered Listener
+     */
     private final Runnable removeListener = new Runnable() {
         @Override
         public void run() {
@@ -36,10 +43,12 @@ public class FirebaseQueryLiveData extends LiveData<QuerySnapshot> {
         }
     };
 
+    /**
+     * register listener
+     */
     @Override
     public void onActive() {
         super.onActive();
-        Log.d(TAG_FIRESTORE_LIVE_DATA, "onActive");
         if (listenerRemovePending) {
             handler.removeCallbacks(removeListener);
         } else {
@@ -48,6 +57,9 @@ public class FirebaseQueryLiveData extends LiveData<QuerySnapshot> {
         listenerRemovePending = false;
     }
 
+    /**
+     * remove listener onInactive
+     */
     @Override
     protected void onInactive() {
         super.onInactive();
@@ -58,6 +70,9 @@ public class FirebaseQueryLiveData extends LiveData<QuerySnapshot> {
         listenerRemovePending = true;
     }
 
+    /**
+     * class to set up event listener on query
+     */
     private class MyValueEventListener implements EventListener<QuerySnapshot> {
         @Override
         public void onEvent(@Nullable QuerySnapshot querySnapshot, @Nullable FirebaseFirestoreException e) {

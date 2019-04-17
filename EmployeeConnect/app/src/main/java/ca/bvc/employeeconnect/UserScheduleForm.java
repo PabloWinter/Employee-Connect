@@ -13,38 +13,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toolbar;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
-
-import ca.bvc.employeeconnect.adapter.ChatListAdapter;
 import ca.bvc.employeeconnect.adapter.UserSchdeuleListAdapter;
-import ca.bvc.employeeconnect.model.Message;
 import ca.bvc.employeeconnect.model.User;
-import ca.bvc.employeeconnect.viewmodel.MessageViewModel;
 import ca.bvc.employeeconnect.viewmodel.ScheduleViewModel;
 
 public class UserScheduleForm extends AppCompatActivity {
 
-    TextView date;
     RecyclerView recyclerView;
     ScheduleViewModel scheduleViewModel;
     UserSchdeuleListAdapter adapter;

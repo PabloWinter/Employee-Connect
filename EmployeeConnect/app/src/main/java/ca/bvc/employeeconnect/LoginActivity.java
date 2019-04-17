@@ -38,6 +38,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * authenticate user and save info to pref
+     * @param view
+     */
     public void loginUser(View view) {
         UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         String userId = ((EditText)((Activity) this).findViewById(R.id.user_login_id)).getText().toString();

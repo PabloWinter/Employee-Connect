@@ -18,6 +18,10 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
     }
 
+    /**
+     * on click listener for collecting user info and registering account
+     * @param view
+     */
     public void signUpUser(View view) {
         UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         String employeeNumber = ((EditText)((Activity) this).findViewById(R.id.user_sign_up_employer_code)).getText().toString();
@@ -29,6 +33,10 @@ public class SignUpActivity extends AppCompatActivity {
         userViewModel.registerAccount(this, employeeNumber, name, email, userId, pin, confirmPin);
     }
 
+    /**
+     * on click listener to open login page back
+     * @param view
+     */
     public void openLoginPage(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

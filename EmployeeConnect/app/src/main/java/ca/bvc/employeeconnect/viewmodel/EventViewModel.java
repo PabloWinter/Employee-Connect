@@ -38,6 +38,12 @@ public class EventViewModel extends ViewModel {
 
     FirebaseQueryLiveData liveData;
 
+    /**
+     * initialize recycler view for events with live data for the event based on timestamp provided
+     * @param context
+     * @param eventRecyclerView
+     * @param timestamp
+     */
     public void initEventRecycler(final Context context, final RecyclerView eventRecyclerView,final Timestamp timestamp) {
         final LinearLayoutManager eventLinearLayoutManager = new LinearLayoutManager(context);
 
@@ -51,6 +57,7 @@ public class EventViewModel extends ViewModel {
 
         liveData = new FirebaseQueryLiveData(db.collection("events").whereEqualTo("Uid", user.getId()).whereEqualTo("TimeStamp", timestamp));
 
+        //set listener for change in data and update content
         liveData.observe((LifecycleOwner) context, new Observer<QuerySnapshot>() {
             @Override
             public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {

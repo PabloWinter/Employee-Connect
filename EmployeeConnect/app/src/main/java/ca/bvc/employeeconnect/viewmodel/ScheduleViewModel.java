@@ -38,9 +38,20 @@ public class ScheduleViewModel extends ViewModel {
         return liveData;
     }
 
-    //add schedule to the firebase,
-    //if success then return true,
-    //if not then return false.
+    /**
+     * method to add schedule to database
+     *     //add schedule to the firebase,
+     *     //if success then return true,
+     *     //if not then return false.
+     * @param context
+     * @param userId
+     * @param storeId
+     * @param startTime
+     * @param endTime
+     * @param note
+     * @param title
+     * @param selectedDate
+     */
     public void addSchedule(final Context context, String userId, String storeId, String startTime, String endTime, String note, String title, Date selectedDate){
 
 
@@ -57,7 +68,6 @@ public class ScheduleViewModel extends ViewModel {
         userSchedule.put("TimeStamp", MyDate.getTimeStamp(selectedDate));
         userSchedule.put("Uid", userId);
 
-        Log.d("schedule", userSchedule.toString());
         db.collection("events")
                 .add(userSchedule)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {

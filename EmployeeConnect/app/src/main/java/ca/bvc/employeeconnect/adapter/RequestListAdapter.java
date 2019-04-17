@@ -23,6 +23,11 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
     private Context mcontext;
     private List<RequestDayOff> listDaysOff;
 
+    /**
+     * Constructor for RequestListAdapter
+     * @param context
+     * @param daysOff
+     */
     public RequestListAdapter(Context context, List<RequestDayOff> daysOff) {
         this.mcontext = context;
         this.listDaysOff = daysOff;
@@ -55,6 +60,10 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
         TextView reasonToDayOff;
         TextView dateDayOff;
 
+        /**
+         * Constructor for Request List Holder
+         * @param itemView
+         */
         public RequestListHolder(@NonNull View itemView) {
             super(itemView);
             nameUser = itemView.findViewById(R.id.request_employee_name);

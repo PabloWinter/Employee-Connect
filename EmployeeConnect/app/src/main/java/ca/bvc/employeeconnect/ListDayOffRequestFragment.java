@@ -82,6 +82,10 @@ public class ListDayOffRequestFragment extends Fragment {
         return view;
     }
 
+    /**
+     * initialize recycler view showing all the day off request
+     * @param view
+     */
     private void initRecyclerView(View view) {
         RecyclerView requestRecycler = view.findViewById(R.id.request_recycler_view);
         Context context = getActivity();

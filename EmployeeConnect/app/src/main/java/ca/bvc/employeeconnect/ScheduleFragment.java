@@ -34,12 +34,10 @@ import ca.bvc.employeeconnect.viewmodel.UserViewModel;
  *
  */
 public class ScheduleFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private CalendarView myCalender;
@@ -60,7 +58,6 @@ public class ScheduleFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment ScheduleFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ScheduleFragment newInstance(String param1, String param2) {
         ScheduleFragment fragment = new ScheduleFragment();
         Bundle args = new Bundle();
@@ -105,6 +102,7 @@ public class ScheduleFragment extends Fragment {
 
         floatingActionButton = rootView.findViewById(R.id.floating_button);
 
+        //set on click listener for opening schedule assign page or request day off page based on user isAdmin Status
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +124,6 @@ public class ScheduleFragment extends Fragment {
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

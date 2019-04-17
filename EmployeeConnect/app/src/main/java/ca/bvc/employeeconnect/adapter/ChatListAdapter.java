@@ -19,6 +19,11 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     private Context mContext;
     private ArrayList<Message> mMessages;
 
+    /**
+     * Constructor for Chat List Adapter
+     * @param context
+     * @param messages
+     */
     public ChatListAdapter(Context context, ArrayList<Message> messages){
         mContext = context;
         mMessages = messages;
@@ -51,6 +56,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         TextView messageBodyText;
         LinearLayout parentLayout;
 
+        /**
+         * Constructor for Chat List Holder
+         * @param itemView
+         */
         public ChatListHolder(@NonNull View itemView) {
             super(itemView);
             senderNameText = itemView.findViewById(R.id.chat_message_textView_senderName);
