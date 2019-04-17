@@ -43,7 +43,6 @@ public class RequestDayOffActivity extends AppCompatActivity {
 
         buttonGetDate = findViewById(R.id.enter_new_date);
         dateText = findViewById(R.id.date_text);
-        employeeCode = findViewById(R.id.employee_code);
         employeeReason = findViewById(R.id.employee_reason);
         submitEmployee = findViewById(R.id.submit_employee_form);
 
