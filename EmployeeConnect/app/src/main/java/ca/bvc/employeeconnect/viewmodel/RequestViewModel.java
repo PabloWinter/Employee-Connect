@@ -51,16 +51,14 @@ public class RequestViewModel {
      * method to submit day off request to database
      * @param context
      * @param user
-     * @param employeeCode
      * @param date
      * @param reason
      */
-    public void sendRequestDayOff(final Context context, String user, String employeeCode, String date, String reason){
+    public void sendRequestDayOff(final Context context, String user,  String date, String reason){
 
         Map<String, Object> employeeRequest = new HashMap<>();
         employeeRequest.put("user", user);
         employeeRequest.put("date", date );
-        employeeRequest.put("employeeCode", employeeCode);
         employeeRequest.put("reason", reason);
 
         db.collection("dayOff")

@@ -80,18 +80,18 @@ public class RequestDayOffActivity extends AppCompatActivity {
                 User user = UserViewModel.getUser(RequestDayOffActivity.this);
                 // Assign user name to use it as a parameter
                 String userName = user.getName();
-                String codeEmployee = employeeCode.getText().toString();
+//                String codeEmployee = employeeCode.getText().toString();
                 String reason = employeeReason.getText().toString();
                 String date = dateText.getText().toString();
 
-                if (userName.isEmpty()  || codeEmployee.isEmpty() || reason.isEmpty() || date.isEmpty()){
+                if (userName.isEmpty()  || reason.isEmpty() || date.isEmpty()){
                     Toast.makeText(RequestDayOffActivity.this, "Error, fields cannot be empty", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 else {
                     // Send request to Firestore
-                    requestViewModel.sendRequestDayOff(RequestDayOffActivity.this, userName, codeEmployee, date, reason);
+                    requestViewModel.sendRequestDayOff(RequestDayOffActivity.this, userName, date, reason);
                 }
             }
         });
