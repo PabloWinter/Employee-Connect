@@ -5,6 +5,8 @@ public class Event {
     public String nameEvent;
     public String noteEvent;
     public String eventStart;
+    public String eventEnd;
+    private String userName;
 
     /**
      * Constructor
@@ -18,9 +20,17 @@ public class Event {
         this.noteEvent = noteEvent;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
+        this.userName = "";
     }
 
-    public String eventEnd;
+    public Event(String nameEvent, String noteEvent, String eventStart, String eventEnd, String userName) {
+        this.nameEvent = nameEvent;
+        this.noteEvent = noteEvent;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
+        this.userName = userName;
+        this.userName = "";
+    }
 
     /**
      * get for name Event
@@ -84,5 +94,21 @@ public class Event {
      */
     public void setEventEnd(String eventEnd) {
         this.eventEnd = eventEnd;
+    }
+
+    /**
+     * get user name
+     * @return
+     */
+    public String getUserName() {
+        return userName;
+    }
+
+    /**
+     * set user name
+     * @param userName
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

@@ -7,6 +7,8 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +16,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -57,6 +61,11 @@ public class EventViewModel extends ViewModel {
 
         liveData = new FirebaseQueryLiveData(db.collection("events").whereEqualTo("Uid", user.getId()).whereEqualTo("TimeStamp", timestamp));
 
+        //if admin show don't filter employee data
+        if (user.isAdmin()) {
+            liveData = new FirebaseQueryLiveData(db.collection("events").whereEqualTo("TimeStamp", timestamp));
+        }
+
         //set listener for change in data and update content
         liveData.observe((LifecycleOwner) context, new Observer<QuerySnapshot>() {
             @Override
@@ -64,9 +73,19 @@ public class EventViewModel extends ViewModel {
                 if (queryDocumentSnapshots != null) {
                     List<Event> events = new ArrayList<>();
                     for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                        events.add(new Event(doc.getString("Name"), doc.getString("Note"), doc.getString("StartTime"), doc.getString("EndTime")));
+                        final Event event = new Event(doc.getString("Name"), doc.getString("Note"), doc.getString("StartTime"), doc.getString("EndTime"));
+                        db.collection("users").document(doc.getString("Uid")).get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful() && task != null){
+                                            event.setUserName("Employee : " + task.getResult().getString("Name"));
+                                            eventRecyclerView.getAdapter().notifyDataSetChanged();
+                                        }
+                                    }
+                                });
+                        events.add(event);
                     }
-
                     eventRecyclerView.setAdapter(new EventListAdapter(context, events));
                     if (eventRecyclerView.getLayoutManager() == null) {
                         eventRecyclerView.setLayoutManager(eventLinearLayoutManager);

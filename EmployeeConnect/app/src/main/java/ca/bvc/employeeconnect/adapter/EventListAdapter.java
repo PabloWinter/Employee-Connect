@@ -44,6 +44,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         eventListHolder.eventNotes.setText(listEvents.get(position).getNoteEvent());
         eventListHolder.eventStart.setText(listEvents.get(position).getEventStart());
         eventListHolder.eventEnd.setText(listEvents.get(position).getEventEnd());
+        eventListHolder.eventUserName.setText(listEvents.get(position).getUserName());
     }
 
     @Override
@@ -56,6 +57,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         TextView eventNotes;
         TextView eventStart;
         TextView eventEnd;
+        TextView eventUserName;
 
         /**
          * Constructor for Event List Adapter
@@ -67,6 +69,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
             eventNotes = itemView.findViewById(R.id.event_note);
             eventStart = itemView.findViewById(R.id.event_start_shift);
             eventEnd = itemView.findViewById(R.id.event_end_shift);
+            eventUserName = itemView.findViewById(R.id.event_user_name);
         }
     }
 }

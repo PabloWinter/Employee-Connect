@@ -69,5 +69,10 @@
     <string name="click_to_assign_end_time">Click to Assign End Time</string>
     <string name="write_note">Write note....</string>
     <string name="add">Add</string>
+    <string name="event_deault_user_name">No Name</string>
+    <string name="event_deault_note">Notes</string>
+    <string name="event_deault_end_time">End Time: 00:00pm</string>
+    <string name="event_default_start_time">Start time: 00:00am</string>
+    <string name="event_deault_name">Name Event</string>
 
 </resources>

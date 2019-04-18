@@ -16,30 +16,37 @@
                 android:id="@+id/event_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name Event"
+                android:text="@string/event_deault_name"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
-
-            <TextView
-                android:id="@+id/event_note"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notes"
-                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/event_start_shift"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start time: 00:00am"
+                android:text="@string/event_default_start_time"
                 android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/event_end_shift"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="End Time: 00:00pm"
+                android:text="@string/event_deault_end_time"
                 android:textSize="17sp"/>
+
+            <TextView
+                android:id="@+id/event_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/event_deault_note"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/event_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/event_deault_user_name"
+                android:textSize="17sp" />
 
     </LinearLayout>
 
