@@ -1,11 +1,14 @@
 package ca.bvc.employeeconnect.viewmodel;
 
+import android.app.Activity;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -34,6 +37,7 @@ import ca.bvc.employeeconnect.adapter.ChatListAdapter;
 import ca.bvc.employeeconnect.adapter.RequestListAdapter;
 import ca.bvc.employeeconnect.model.Message;
 import ca.bvc.employeeconnect.model.RequestDayOff;
+import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
 
 public class RequestViewModel {
@@ -56,10 +60,13 @@ public class RequestViewModel {
      */
     public void sendRequestDayOff(final Context context, String user,  String date, String reason){
 
+        UserViewModel userViewModel = ViewModelProviders.of((FragmentActivity) context).get(UserViewModel.class);
+        User userInfo = userViewModel.getUser((Activity) context);
         Map<String, Object> employeeRequest = new HashMap<>();
-        employeeRequest.put("user", user);
+        employeeRequest.put("user", userInfo.getName());
         employeeRequest.put("date", date );
         employeeRequest.put("reason", reason);
+        employeeRequest.put("StoreId", userInfo.getStoreId());
 
         db.collection("dayOff")
                 .add(employeeRequest)
@@ -84,7 +91,9 @@ public class RequestViewModel {
      */
     public void initVRecycler(final Context context, final RecyclerView requestRecyclerView) {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-
+        UserViewModel userViewModel = ViewModelProviders.of((FragmentActivity) context).get(UserViewModel.class);
+        User user = userViewModel.getUser((Activity) context);
+        liveData = new FirebaseQueryLiveData(db.collection("dayOff").whereEqualTo("StoreId", user.getStoreId()));
         liveData.observe((LifecycleOwner) context, new Observer<QuerySnapshot>() {
             @Override
             public void onChanged(@Nullable QuerySnapshot queryDocumentSnapshots) {

@@ -56,8 +56,9 @@
                 android:layout_marginTop="15dp"
                 android:text="@string/login_btn_text"
                 android:onClick="loginUser"
-                android:background="@color/colorPrimary"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                android:background="@color/btnColor"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -76,7 +77,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:onClick="openSignUpPage"
-                android:background="@color/colorPrimary"/>
+                android:textColor="@color/textColor"
+                android:background="@color/btnColor"/>
 
             </LinearLayout>
 

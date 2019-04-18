@@ -44,7 +44,7 @@ public class UserScheduleForm extends AppCompatActivity {
 
 
         scheduleViewModel = ViewModelProviders.of(this).get(ScheduleViewModel.class);
-        LiveData<QuerySnapshot> userLiveData = scheduleViewModel.getUserList();
+        LiveData<QuerySnapshot> userLiveData = scheduleViewModel.getUserList(this);
 
         userLiveData.observe(this, new Observer<QuerySnapshot>() {
             @Override
