@@ -5,7 +5,9 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#3369FF</item>
+        <item name="android:colorBackground">@color/browser_actions_bg_grey</item>
+        <item name="android:textColorPrimary">@color/browser_actions_text_color</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

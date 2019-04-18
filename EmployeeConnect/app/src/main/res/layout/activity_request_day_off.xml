@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Enter Date: "
+            android:textColor="#fff"
             android:textSize="21sp"/>
 
         <Button
@@ -26,7 +27,7 @@
             android:layout_width="45dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_calendar"
-            android:backgroundTint="#007bff"/>
+            android:backgroundTint="#FFBA00"/>
 
         <TextView
             android:id="@+id/date_text"
@@ -63,6 +64,8 @@
             android:layout_marginRight="20dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:background="#3268FF"
+            android:textColor="@color/textcolor"
             android:text="Submit"/>
 
     </LinearLayout>
