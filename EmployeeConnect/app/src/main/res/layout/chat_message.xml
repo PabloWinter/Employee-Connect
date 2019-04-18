@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_margin="6dp"
@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="7dp">
+        android:padding="12dp">
 
         <LinearLayout
             android:id="@+id/chat_message_profileInfo"
@@ -38,7 +38,8 @@
                 android:text="@string/ex_time"
                 android:layout_marginStart="5dp"
                 android:textColor="#007bff"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                />
         </LinearLayout>
 
         <TextView
@@ -47,6 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:text="@string/ex_msg_body"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:ellipsize="end"
+            android:singleLine="false"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

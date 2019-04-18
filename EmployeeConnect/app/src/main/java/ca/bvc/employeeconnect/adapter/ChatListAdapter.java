@@ -41,7 +41,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     public void onBindViewHolder(@NonNull ChatListHolder chatListHolder, final int position) {
         chatListHolder.senderNameText.setText(mMessages.get(position).getSenderName());
         chatListHolder.timeStampText.setText(mMessages.get(position).getTimestamp().toDate().toString());
-        chatListHolder.messageBodyText.setText(mMessages.get(position).getMessageBody());
+        chatListHolder.messageBodyText.setText(mMessages.get(position).getMessageBody() + "\n");
     }
 
     @Override
