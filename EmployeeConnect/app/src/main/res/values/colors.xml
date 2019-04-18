@@ -5,4 +5,6 @@
     <color name="colorAccent">#3268ff</color>
     <color name="background_material_light">#202020</color>
     <color name="textcolor">#ffff</color>
+    <color name="textColor">#fff</color>
+    <color name="btnColor">#0f4d92</color>
 </resources>
