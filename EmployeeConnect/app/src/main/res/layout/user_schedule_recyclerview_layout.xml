@@ -12,7 +12,7 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#808080"
+        app:cardBackgroundColor="#A9A9A9"
         app:contentPadding="1dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +99,7 @@
                 android:hint="@string/add"
                 android:textColorHint="@color/common_google_signin_btn_text_dark_default"
                 android:textStyle="bold"
-                android:background="#3268FF"
+                android:background="#0F4D92"
                 android:layout_marginTop="5dp"/>
 
         </LinearLayout>
