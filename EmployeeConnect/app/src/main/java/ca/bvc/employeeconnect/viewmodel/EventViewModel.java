@@ -63,7 +63,7 @@ public class EventViewModel extends ViewModel {
 
         //if admin show don't filter employee data
         if (user.isAdmin()) {
-            liveData = new FirebaseQueryLiveData(db.collection("events").whereEqualTo("TimeStamp", timestamp));
+            liveData = new FirebaseQueryLiveData(db.collection("events").whereEqualTo("StoreId", user.getStoreId()).whereEqualTo("TimeStamp", timestamp));
         }
 
         //set listener for change in data and update content

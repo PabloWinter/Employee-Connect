@@ -100,7 +100,9 @@ public class MessageViewModel extends ViewModel {
      */
     public void initChatRecyclerView(final Context context, final RecyclerView chatRecyclerView) {
         final LinearLayoutManager chatLinearLayoutManager = new LinearLayoutManager(context);
-
+        UserViewModel userViewModel = ViewModelProviders.of((FragmentActivity) context).get(UserViewModel.class);
+        User user = userViewModel.getUser((Activity) context);
+        liveData = new FirebaseQueryLiveData(db.collection("messages").whereEqualTo("StoreId", user.getStoreId()));
         //update message on view on change in data
         liveData.observe((LifecycleOwner) context, new Observer<QuerySnapshot>() {
             @Override

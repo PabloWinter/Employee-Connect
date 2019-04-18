@@ -1,9 +1,12 @@
 package ca.bvc.employeeconnect.viewmodel;
 
+import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import ca.bvc.employeeconnect.helper.MyDate;
+import ca.bvc.employeeconnect.model.User;
 import ca.bvc.employeeconnect.remote.FirebaseQueryLiveData;
 
 public class ScheduleViewModel extends ViewModel {
@@ -34,8 +38,10 @@ public class ScheduleViewModel extends ViewModel {
 
     //get all user from firebase.
     @Nonnull
-    public LiveData<QuerySnapshot> getUserList() {
-        return liveData;
+    public LiveData<QuerySnapshot> getUserList(Context context) {
+        UserViewModel userViewModel = ViewModelProviders.of((FragmentActivity) context).get(UserViewModel.class);
+        User user = userViewModel.getUser((Activity) context);
+        return new FirebaseQueryLiveData(db.collection("users").whereEqualTo("StoreId", user.getStoreId()));
     }
 
     /**
