@@ -1,29 +1,15 @@
-# README #
+# Employee Connect #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+⋅⋅⋅Android application where you can quickly create a schedule for your employees, and communicate in real time.⋅⋅
+⋅⋅⋅Here is the link to the android play store [Employee Connect](https://play.google.com/store/apps/details?id=ca.bvc.employeeconnect)
 
-### What is this repository for? ###
+## Contributions
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+For this project, I worked along with two other developers.
 
-### How do I get set up? ###
+#### Developers
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+⋅⋅⋅Pablo Winter. git credentials for this project: p.rodriguez673 .⋅⋅
+⋅⋅⋅Brijesh Patel.⋅⋅
+⋅⋅⋅Sandeep Saini.⋅⋅
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
